@@ -41,7 +41,7 @@ public class Flight {
 		boolean booked = false;
 		for(Section i: sections) {
 			if(i.getSeatClass().equals(seatClass.name())) {
-				booked = i.bookSeat(row, col);
+				booked = i.bookSpot(row, col);
 			}
 		}
 		return booked;
@@ -49,14 +49,11 @@ public class Flight {
 	
 	public boolean addSection(Section s) {
 		if(this.sections != null) {
-			
-		
-        for(Section s1: this.sections) {
-            if(s1.getSeatClass().equals(s.getSeatClass())) {
-                throw new IllegalArgumentException("Duplicate Section: " + s1.getSeatClass());
-            }
-        	}
-        	
+			for(Section s1: this.sections) {
+				if(s1.getSeatClass().equals(s.getSeatClass())) {
+					throw new IllegalArgumentException("Duplicate Section: " + s1.getSeatClass());
+				}
+			}
 		}
         sections.add(s);
         return true;

@@ -4,7 +4,8 @@ import ACTBS.SystemExceptions.*;
 
 public class Section {
     private SeatClass seatClass;
-    private Seat seats[][];
+    private Spot spots[][];
+    private double price;
 
     public Section(int rows, int cols, SeatClass seatClass) {
         if (rows < 1 || rows > 100)
@@ -12,8 +13,8 @@ public class Section {
         if (cols < 1 || cols > 10)
             throw new ColumnOutOfBoundsException("Columns out of range(1,10):Section");
 
-        this.seats = new Seat[rows][cols];
-        initializeSeats();
+        this.spots = new Spot[rows][cols];
+        initializeSpots();
         this.seatClass = seatClass;
     }
 
@@ -21,27 +22,31 @@ public class Section {
         return seatClass.name();
     }
 
-    public boolean hasAvailableSeats() {
-        for (int row = 0; row < seats.length; row++) {
-            for (int col = 0; col < seats[0].length; col++)
-                if (seats[row][col].isBooked() == false)
+    public double getPrice() {
+        return this.price;
+    }
+
+    public boolean hasAvailableSports() {
+        for (int row = 0; row < spots.length; row++) {
+            for (int col = 0; col < spots[0].length; col++)
+                if (spots[row][col].isBooked() == false)
                     return true;
         }
         return false;
     }
 
-    public boolean bookSeat(int row, int col) {
-        if (seats[row-1][col].isBooked() == false) {
-            seats[row-1][col].book();
+    public boolean bookSpot(int row, int col) {
+        if (spots[row-1][col].isBooked() == false) {
+            spots[row-1][col].book();
             return true;
         }
         return false;
     }
 
-    private void initializeSeats() {
-        for (int row = 0; row < seats.length; row++) {
-            for (int col = 0; col < seats[0].length; col++) {
-                seats[row][col] = new Seat(row+1, col+1);
+    private void initializeSpots() {
+        for (int row = 0; row < spots.length; row++) {
+            for (int col = 0; col < spots[0].length; col++) {
+                spots[row][col] = new Spot(row+1, col+1);
             }
         }
     }
@@ -50,9 +55,9 @@ public class Section {
     public String toString() {
         String section = String.format("\t%s class:\n", getSeatClass() );
 
-        for (int row = 0; row < seats.length; row++) {
-            for (int col = 0; col < seats[0].length; col++) {
-                section += ((col == 0) ? "\t" : "") + seats[row][col].getID() + ((col == seats[0].length-1) ? "" : " ");
+        for (int row = 0; row < spots.length; row++) {
+            for (int col = 0; col < spots[0].length; col++) {
+                section += ((col == 0) ? "\t" : "") + spots[row][col].getID() + ((col == spots[0].length-1) ? "" : " ");
             }
             section += "\n";
         }
@@ -60,14 +65,14 @@ public class Section {
         return section;
     }
     
-    public String getAvailableSeats() {
+    public String getAvailableSports() {
         String section = String.format("%s class:\n", getSeatClass() );
 
-        for (int row = 0; row < seats.length; row++) {
+        for (int row = 0; row < spots.length; row++) {
         	section += "\t";
-            for (int col = 0; col < seats[0].length; col++) {
-            	section += String.format("%2s ", (seats[row][col].isBooked()) ? "--" : seats[row][col].getID());
-                //section += ((col == 0) ? "\t" : "") + seats[row][col].getID() + ((col == seats[0].length-1) ? "" : " ");
+            for (int col = 0; col < spots[0].length; col++) {
+            	section += String.format("%2s ", (spots[row][col].isBooked()) ? "--" : spots[row][col].getID());
+                //section += ((col == 0) ? "\t" : "") + spots[row][col].getID() + ((col == spots[0].length-1) ? "" : " ");
             }
             section += "\n";
         }
@@ -76,9 +81,9 @@ public class Section {
     }
 
     private void printBooked() {
-        for (int row = 0; row < seats.length; row++) {
-            for (int col = 0; col < seats[0].length; col++)
-                System.out.print(seats[row][col].isBooked() + " ");
+        for (int row = 0; row < spots.length; row++) {
+            for (int col = 0; col < spots[0].length; col++)
+                System.out.print(spots[row][col].isBooked() + " ");
             System.out.println("\n");
         }
 

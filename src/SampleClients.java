@@ -29,18 +29,18 @@ public class SampleClients {
         res.createFlight("AMER", "DEN", "LON", 2010, 40, 100, "123abc");//invalid date
 
 
-        res.createSection("DELTA","123", 2, 2, SeatClass.economy);
-        res.createSection("DELTA","123", 2, 3, SeatClass.first);
-        res.createSection("DELTA","123", 2, 3, SeatClass.first);//Invalid
-        res.createSection("SWSERTT","123", 5, 5, SeatClass.economy);//Invalid airline
+        res.createSection("DELTA","123", 2, 2, SeatClass.ECONOMY);
+        res.createSection("DELTA","123", 2, 3, SeatClass.FIRST);
+        res.createSection("DELTA","123", 2, 3, SeatClass.FIRST);//Invalid
+        res.createSection("SWSERTT","123", 5, 5, SeatClass.ECONOMY);//Invalid airline
 
 
-        res.bookSeat("DELTA", "123", SeatClass.first, 1, 'A');
-        res.bookSeat("DELTA", "123", SeatClass.economy, 1, 'A');
-        res.bookSeat("DELTA", "123", SeatClass.economy, 1, 'B');
-        res.bookSeat("DELTA888", "123", SeatClass.business, 1, 'A'); //Invalid airline
-        res.bookSeat("DELTA", "123haha7", SeatClass.business, 1, 'A'); //Invalid flightId
-        res.bookSeat("DELTA", "123", SeatClass.economy, 1, 'A'); //already booked
+        res.bookSeat("DELTA", "123", SeatClass.FIRST, 1, 'A');
+        res.bookSeat("DELTA", "123", SeatClass.ECONOMY, 1, 'A');
+        res.bookSeat("DELTA", "123", SeatClass.ECONOMY, 1, 'B');
+        res.bookSeat("DELTA888", "123", SeatClass.BUSINESS, 1, 'A'); //Invalid airline
+        res.bookSeat("DELTA", "123haha7", SeatClass.BUSINESS, 1, 'A'); //Invalid flightId
+        res.bookSeat("DELTA", "123", SeatClass.ECONOMY, 1, 'A'); //already booked
 
         res.displaySystemDetails();
         
