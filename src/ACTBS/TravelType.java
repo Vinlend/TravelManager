@@ -42,7 +42,7 @@ public abstract class TravelType {
 		boolean booked = false;
 		for(Section i: sections) {
 			if(i.getSeatClass().equals(seatClass.name())) {
-				booked = i.bookSeat(row, col);
+				booked = i.bookSpot(row, col);
 			}
 		}
 		return booked;

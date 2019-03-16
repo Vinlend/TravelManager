@@ -5,27 +5,27 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class SectionTest {
-    Section testSection = new Section(2, 5, SeatClass.business);
+    Section testSection = new Section(2, 5, SeatClass.BUSINESS);
     @Test
     void testGetSeatClass() {
-        assertEquals("business", testSection.getSeatClass());
+        assertEquals("BUSINESS", testSection.getSeatClass());
     }
 
     @Test
     void testHasAvailableSeats() {
-        assertEquals(true, testSection.hasAvailableSeats());
+        assertEquals(true, testSection.hasAvailableSpots());
     }
 
     @Test
     void testBookSeat() {
-        assertEquals(true, testSection.bookSeat(1 ,3));
-        assertEquals(false, testSection.bookSeat(1 ,3));
+        assertEquals(true, testSection.bookSpot(1 ,3));
+        assertEquals(false, testSection.bookSpot(1 ,3));
     }
 
     @Test
     void testToString() {
         String section =
-                "\tbusiness class:\n" +
+                "\tBUSINESS class:\n" +
                         "\t1A 1B 1C 1D 1E\n" +
                         "\t2A 2B 2C 2D 2E\n";
 

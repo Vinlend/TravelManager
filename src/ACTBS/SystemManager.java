@@ -132,8 +132,8 @@ public abstract class SystemManager {
     				System.out.println("Date: " + j.getDate());
 	    			for(Section s: j.getSections()) {
 	    				
-	    				if(s.hasAvailableSeats()) {
-	    					System.out.println("\n\t" +s.getAvailableSeats());
+	    				if(s.hasAvailableSpots()) {
+	    					System.out.println("\n\t" +s.getAvailableSports());
 	    					
 	    				}
 	    			}
@@ -154,10 +154,12 @@ public abstract class SystemManager {
     	}
 
     	if(booked) {
-    		System.out.println(String.format("Seat %d%s is booked on %s flight %s in %s class", row, col, travelCompany, flightID, seatClass.name()));
+
+    		System.out.println(String.format("Spot %d%s is booked on %s flight %s in %s class", row, col, travelCompany, flightID, seatClass.name()));
     	}
     	else
-    		System.out.println(String.format("Seat %d%s is not booked on %s flight %s in %s class", row, col, travelCompany, flightID, seatClass.name()));
+    		System.out.println(String.format("Spot %d%s is not booked on %s flight %s in %s class", row, col, travelCompany, flightID, seatClass.name()));
+
     }
     public void displaySystemDetails() {
 

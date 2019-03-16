@@ -8,25 +8,25 @@ public class Spot {
 
     public Spot(int row, int column) {
         if(row < 1 || row > 100)
-            throw new RowOutOfBoundsException("Rows out of range(1,100):Seat");
+            throw new RowOutOfBoundsException("Rows out of range(1,100):Spot");
         if(column < 1 || column > 10)
-            throw new ColumnOutOfBoundsException("Columns out of range(1,10):Seat");
+            throw new ColumnOutOfBoundsException("Columns out of range(1,10):Spot");
 
         this.ID = row + String.valueOf((char)(64+column));
-        booked = false;
+        this.booked = false;
     }
 
     public String getID() {
-        return ID;
+        return this.ID;
     }
 
     public boolean isBooked() {
-        return booked;
+        return this.booked;
     }
 
     public boolean book() {
-        if (!booked) {
-            booked = true;
+        if (!this.booked) {
+            this.booked = true;
             return true;
         } else {
             return false;

@@ -24,6 +24,7 @@ public class Flight extends TravelType{
 	}
 	
 	
+
 	
 	@Override 
 	public String toString() {
