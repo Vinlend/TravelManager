@@ -1,7 +1,7 @@
 package ACTBS;
 
 public enum SeatClass {
-    business,
-    first,
-    economy
+    BUSINESS,
+    FIRST,
+    ECONOMY
     }
