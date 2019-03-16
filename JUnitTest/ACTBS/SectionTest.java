@@ -13,7 +13,7 @@ class SectionTest {
 
     @Test
     void testHasAvailableSeats() {
-        assertEquals(true, testSection.hasAvailableSports());
+        assertEquals(true, testSection.hasAvailableSpots());
     }
 
     @Test

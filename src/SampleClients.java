@@ -1,5 +1,4 @@
-import ACTBS.SystemManager;
-import ACTBS.SeatClass;
+import ACTBS.*;
 public class SampleClients {
 
     /**
@@ -9,18 +8,18 @@ public class SampleClients {
         // TODO Auto-generated method stub
 
 
-        SystemManager res = new SystemManager();
-        res.createAirport("DEN");
-        res.createAirport("DFW");
-        res.createAirport("LON");
-        res.createAirport("DEN");//invalid
-        res.createAirport("DENW");//invalid
+        SystemManager res = new SystemManagerAirports();
+        res.createTravelLocation("DEN");
+        res.createTravelLocation("DFW");
+        res.createTravelLocation("LON");
+        res.createTravelLocation("DEN");//invalid
+        res.createTravelLocation("DENW");//invalid
 
-        res.createAirline("DELTA");
-        res.createAirline("AMER");
-        res.createAirline("FRONT");
-        res.createAirline("FRONTIER"); //invalid
-        res.createAirline("FRONT"); //invalid
+        res.createTravelCompany("DELTA");
+        res.createTravelCompany("AMER");
+        res.createTravelCompany("FRONT");
+        res.createTravelCompany("FRONTIER"); //invalid
+        res.createTravelCompany("FRONT"); //invalid
 
         res.createFlight("DELTA", "DEN", "LON", 2019, 10, 10, "123");
         res.createFlight("DELTA", "DEN", "DEN", 2019, 8, 8, "567abc");//same airprt
