@@ -2,11 +2,11 @@ package ACTBS;
 
 import ACTBS.SystemExceptions.*;
 
-public class Seat {
+public class Spot {
     private String ID;
     private boolean booked;
 
-    public Seat(int row, int column) {
+    public Spot(int row, int column) {
         if(row < 1 || row > 100)
             throw new RowOutOfBoundsException("Rows out of range(1,100):Seat");
         if(column < 1 || column > 10)
