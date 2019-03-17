@@ -44,7 +44,7 @@ public class SystemMenu {
 
         res.displaySystemDetails();
         
-        res.findAvailableFlights("DEN", "LON");
+        res.findAvailableTravels("DEN", "LON", SeatClass.FIRST, 2019, 10, 10);
 
 
 

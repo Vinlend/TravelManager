@@ -69,7 +69,7 @@ public abstract class SystemManager {
 
     }
 
-    public void createSection(String travelCompany, String ID, int rows, int cols, SeatClass seatClass) {
+    public void createSection(String travelCompany, String ID, int rows, int cols, SeatClass seatClass, double price) {
 
     try {
 	    	boolean travelLocationNotFound = true;
@@ -77,7 +77,9 @@ public abstract class SystemManager {
 	        {
 	        	if(i.getName().equalsIgnoreCase(travelCompany)) {
 		        	travelLocationNotFound = false;
-	        		if(i.addTravelTypeSection(ID, rows, cols, seatClass))
+		        	
+		        	
+	        		if(i.addTravelTypeSection(ID, rows, cols, seatClass, price))
 	        			System.out.println(String.format("Section with %s class for %s travel type: %s -- Created", seatClass.name(), travelCompany, ID));
 	        		else
 	        			System.out.println(String.format("Section with %s class for %s travel type: %s -- Failed", seatClass.name(), travelCompany, ID));
@@ -95,12 +97,12 @@ public abstract class SystemManager {
         }
     }
     
-    public void findAvailableFlights(String orig, String dest) {
+    public void findAvailableTravels(String orig, String dest, SeatClass seatClass, int year, int month, int day) {
     	int count = 0; 
 
-		System.out.println("--------Available flights----------");
+		System.out.println("--------Available ----------");
     	for(TravelCompany i: travelCompanies) {
-    		for(TravelType j: i.findTravelTypes(orig, dest)){
+    		for(TravelType j: i.findTravelTypes(orig, dest, year, month, day)){
     			count++;
     			if(j.getSections() == null)
         			System.out.println(String.format("\tTravelCompany: %s TravelType: %s Origin: %s Destination: %s Date %s", i.getName(), j.getID(), j.getOrigin(), j.getDestination(), j.getDate()));
@@ -145,7 +147,23 @@ public abstract class SystemManager {
 
 	public void bookSeatPreference(String travelCompany, String flightID, SeatClass seatClass, int row, char col) {
 	}
-
+	
+	public void changeSpotPriceBySection(TravelType travelType, SeatClass seatClass, double newPrice) {
+		List<Section> sections = travelType.getSections(); 
+		for(Section s: sections) {
+			if(s.getSeatClass().equals(seatClass.name())) {
+				s.setPrice(newPrice); 
+				System.out.println(seatClass.name() + "section price changed to " + newPrice);
+			}
+		}
+	}
+	
+	public void changeSpotPriceByOriginDestination(TravelCompany travelCompany, SeatClass seatClass, String origin, String destination, double newPrice) {
+		List<TravelType> travelTypes = travelCompany.findTravelTypesByOriginDestination(origin, destination); 
+		for(TravelType t: travelTypes) {
+			changeSpotPriceBySection(t, seatClass, newPrice); 
+		}
+	}
     public void displaySystemDetails() {
 
     	System.out.println("---System---");

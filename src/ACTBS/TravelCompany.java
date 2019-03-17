@@ -18,10 +18,20 @@ public class TravelCompany {
 		return this.name;
 	}
 	
-	public ArrayList<TravelType> findTravelTypes(String origin, String destination) {
+	ArrayList<TravelType> findTravelTypesByOriginDestination(String origin, String destination) {
 		ArrayList<TravelType> travelTypes = new ArrayList<TravelType>();
 		for(TravelType i: this.travelList) {
 			if(origin.equals(i.getOrigin()) && destination.equals(i.getDestination())) {
+				travelTypes.add(i); 
+			}
+		}
+		return travelTypes;
+	}
+	
+	public ArrayList<TravelType> findTravelTypes(String origin, String destination, int year, int month, int day) {
+		ArrayList<TravelType> travelTypes = new ArrayList<TravelType>();
+		for(TravelType i: this.travelList) {
+			if(origin.equals(i.getOrigin()) && destination.equals(i.getDestination()) && year == i.getYear() && month == i.getMonth() && day == i.getDay()) {
 				travelTypes.add(i); 
 			}
 		}
@@ -65,12 +75,28 @@ public class TravelCompany {
 
 	}
 	
-	public boolean addTravelTypeSection(String ID, int rows, int cols, SeatClass seatClass) {
+	public boolean addTravelTypeSection(String ID, int rows, int cols, SeatClass seatClass, double price) {
 		for(TravelType t : this.travelList) {
 			if(t.getID().equals(ID)) {
 				try {
-				t.addSection(new Section(rows, cols, seatClass, 200));
-				return true;
+					
+
+					//IF flight is not unique, realprice will be set to already established price
+					boolean flightUnique = true;
+					double realPrice = price; 
+					for(TravelType tt: this.travelList) {
+						if(tt.getOrigin().equals(t.getOrigin()) && tt.getDestination().equals(t.getDestination())) {
+							flightUnique = false;
+							List<Section> sections = tt.getSections();
+							realPrice = sections.get(sections.indexOf(seatClass)).getPrice();
+						}
+					}
+					if(!flightUnique) {
+						System.out.println("Origin/Destination combination not unique, so the price provided was overwritten by previously established price");
+					}
+					
+					t.addSection(new Section(rows, cols, seatClass, price));
+					return true;
 				}
 				catch(RuntimeException e) {
 					return false;

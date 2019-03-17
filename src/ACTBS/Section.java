@@ -22,6 +22,7 @@ public class Section {
         initializeSpots();
 
         this.seatClass = seatClass;
+        this.price = price;
     }
 
     public String getSeatClass() {
@@ -88,7 +89,7 @@ public class Section {
     }
     
     public String getAvailableSports() {
-        String section = String.format("%s class:\n", getSeatClass() );
+        String section = String.format("%s class: (Price: " + this.getPrice() + ")\n", getSeatClass() );
 
         for (int row = 0; row < spots.length; row++) {
         	section += "\t";
