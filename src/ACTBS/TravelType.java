@@ -25,6 +25,16 @@ public abstract class TravelType {
 		return month + "/" + day + "/" + year;
 	}
 	
+	public int getDay() {
+		return day;
+	}
+	public int getMonth() {
+		return month;
+	}
+	public int getYear() {
+		return year;
+	}
+	
 	public List<Section> getSections(){
 		return this.sections;
 	}
@@ -52,13 +62,15 @@ public abstract class TravelType {
 		if(this.sections != null) {
 			
 		
-        for(Section s1: this.sections) {
-            if(s1.getSeatClass().equals(s.getSeatClass())) {
-                throw new IllegalArgumentException("Duplicate Section: " + s1.getSeatClass());
-            }
-        	}
+	        for(Section s1: this.sections) {
+	            if(s1.getSeatClass().equals(s.getSeatClass())) {
+	                throw new IllegalArgumentException("Duplicate Section: " + s1.getSeatClass());
+	            }
+	        }
         	
 		}
+		
+		
         sections.add(s);
         return true;
 
