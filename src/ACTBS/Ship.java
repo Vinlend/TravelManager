@@ -18,9 +18,7 @@ public class Ship extends TravelType{
 		this.day = day;
 		this.month = month;
 	}
-	
-	
-	
+
 	@Override 
 	public String toString() {
 		String result = sID + " " + this.origin + " " + this.destination + " " + this.getDate(); 

@@ -1,5 +1,5 @@
 import ACTBS.*;
-public class SampleClients {
+public class SystemMenu {
 
     /**
      * @param args
@@ -9,6 +9,7 @@ public class SampleClients {
 
 
         SystemManager res = new SystemManagerAirports();
+
         res.createTravelLocation("DEN");
         res.createTravelLocation("DFW");
         res.createTravelLocation("LON");
@@ -21,11 +22,11 @@ public class SampleClients {
         res.createTravelCompany("FRONTIER"); //invalid
         res.createTravelCompany("FRONT"); //invalid
 
-        res.createFlight("DELTA", "DEN", "LON", 2019, 10, 10, "123");
-        res.createFlight("DELTA", "DEN", "DEN", 2019, 8, 8, "567abc");//same airprt
-        res.createFlight("DEL", "DEN", "LON", 2019, 9, 8, "567"); //invalid airline
-        res.createFlight("DELTA", "LON33", "DEN33", 2019, 5, 7, "123");//invalid airports
-        res.createFlight("AMER", "DEN", "LON", 2010, 40, 100, "123abc");//invalid date
+        res.createTravelType("DELTA", "DEN", "LON", 2019, 10, 10, "123");
+        res.createTravelType("DELTA", "DEN", "DEN", 2019, 8, 8, "567abc");//same airprt
+        res.createTravelType("DEL", "DEN", "LON", 2019, 9, 8, "567"); //invalid airline
+        res.createTravelType("DELTA", "LON33", "DEN33", 2019, 5, 7, "123");//invalid airports
+        res.createTravelType("AMER", "DEN", "LON", 2010, 40, 100, "123abc");//invalid date
 
 
         res.createSection("DELTA","123", 2, 2, SeatClass.ECONOMY);
@@ -44,6 +45,10 @@ public class SampleClients {
         res.displaySystemDetails();
         
         res.findAvailableFlights("DEN", "LON");
+
+
+
+
     }
 
 }

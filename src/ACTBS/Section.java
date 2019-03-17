@@ -9,11 +9,13 @@ public class Section {
     private double price;
 
 
-    public Section(int rows, int cols, SeatClass seatClass) {
+    public Section(int rows, int cols, SeatClass seatClass, double price) {
         if (rows < 1 || rows > 100)
             throw new RowOutOfBoundsException("Rows out of range(1,100):Section");
         if (cols < 1 || cols > 10)
             throw new ColumnOutOfBoundsException("Columns out of range(1,10):Section");
+        if(price < 0)
+            throw new PriceIsNegativeException("Price cannot be negative");
 
         this.spots = new Spot[rows][cols];
 
@@ -29,6 +31,17 @@ public class Section {
 
     public double getPrice() {
         return this.price;
+    }
+
+    public boolean setPrice(double price) {
+        boolean priceChanged;
+        if (price < 0)
+            priceChanged = false;
+        else {
+            this.price = price;
+            priceChanged = true;
+        }
+        return priceChanged;
     }
 
     public boolean hasAvailableSpots() {

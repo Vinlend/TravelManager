@@ -36,42 +36,40 @@ public class TravelCompany {
 		}
 		return false; 
 	}
-	
-	//SHOULD WE MAKE THIS AN ENUM??
-	public boolean addTravelType(String origin, String destination, int year, int month, int day, String ID, String flightOrShip) {
+
+	public boolean addTravelType(String origin, String destination, int year, int month, int day, String ID, TransportationType type) {
 		
 		TravelType t;
 		try {
-		if(flightOrShip.toLowerCase().equals("flight")) {
-			t = new Flight(origin, destination, year, day, month, ID);
-		} else if(flightOrShip.toLowerCase().equals("ship")) {
-			t = new Ship(origin, destination, year, day, month, ID);
-		} else {
-			throw new IllegalArgumentException("TravelType not created, ship or flight not specified"); 
-		}
-		
-		
-		
-		for(TravelType i : this.travelList) {
-			if(ID.equals(i.getID())) {
-				throw new SameFlightIDException("Duplicate TravelType ID"); 
+			if(type.equals(TransportationType.FLIGHT)) {
+				t = new Flight(origin, destination, year, day, month, ID);
+			} else if(type.equals(TransportationType.SHIP)) {
+				t = new Ship(origin, destination, year, day, month, ID);
+			} else {
+				throw new IllegalArgumentException("TravelType not created, ship or flight not specified");
 			}
-		}
-		this.travelList.add(t); 
-		return true;
+
+			for(TravelType i : this.travelList) {
+				if(ID.equals(i.getID())) {
+					throw new SameFlightIDException("Duplicate TravelType ID");
+				}
+			}
+
+			this.travelList.add(t);
+			return true;
 		
 		} catch(IllegalArgumentException e) {
-			System.out.println(e.getMessage()); 
+			System.out.println(e.getMessage());
+			return false;
 		}
-		
-		return false; 
+
 	}
 	
 	public boolean addTravelTypeSection(String ID, int rows, int cols, SeatClass seatClass) {
 		for(TravelType t : this.travelList) {
 			if(t.getID().equals(ID)) {
 				try {
-				t.addSection(new Section(rows, cols, seatClass));
+				t.addSection(new Section(rows, cols, seatClass, 200));
 				return true;
 				}
 				catch(RuntimeException e) {
@@ -81,7 +79,10 @@ public class TravelCompany {
 		}
 		return false;
 	}
-	
+
+	/*
+	fix it to one line inside of the method that calls it
+	 */
 	private int colToNum(char col) {
 		int colNum = 0;
 		switch(Character.toLowerCase(col)) {

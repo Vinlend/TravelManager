@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class SectionTest {
-    Section testSection = new Section(2, 5, SeatClass.BUSINESS);
+    Section testSection = new Section(2, 5, SeatClass.BUSINESS, 100);
     @Test
     void testGetSeatClass() {
         assertEquals("BUSINESS", testSection.getSeatClass());

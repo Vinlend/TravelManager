@@ -54,16 +54,9 @@ public abstract class SystemManager {
     	}
     	
     }
-    public void createFlight(String aname, String orig, String dest, int year, int month, int day, String fID) {
-    	try {
+    public void createTravelType(String aname, String orig, String dest, int year, int month, int day, String fID) {
+
     		
-    		boolean travelLocationNotExist = true;
-    		for(TravelLocation ap : this.travelLocations) {
-    			if(ap.getName().equals(orig) || ap.getName().equals(dest))
-    				travelLocationNotExist = false;
-    		}
-    		if(travelLocationNotExist)
-    			throw new IllegalArgumentException("Flight " + fID + " not created: airport not exist"); 
 
     		LocalDate localDate = LocalDate.now();
     		if(year < localDate.getYear() ) {
@@ -72,20 +65,8 @@ public abstract class SystemManager {
     		if( (month > 12 || day > 31) || (month < 0 || day < 0)) {
     			throw new IllegalArgumentException("Flight " + fID + " not created: Invalid Date");
     		}
-    		boolean created = false;
-    		for(TravelCompany i: this.travelCompanies) {
-    			if(aname.equals(i.getName())) {
-    				System.out.println("Flight " + fID + " created");
-    				i.addTravelType(orig, dest, year, month, day, fID, "flight"); 
-    				created = true;
-    			}
-    		}
-    		if(!created)
-    			System.out.println("Flight " + fID + " not created: TravelCompany " + aname + " does not exist!");
-    	}
-    	catch(RuntimeException e) {
-    		System.out.println(e.getMessage());
-    	}
+
+
     }
 
     public void createSection(String travelCompany, String ID, int rows, int cols, SeatClass seatClass) {
@@ -161,6 +142,10 @@ public abstract class SystemManager {
     		System.out.println(String.format("Spot %d%s is not booked on %s flight %s in %s class", row, col, travelCompany, flightID, seatClass.name()));
 
     }
+
+	public void bookSeatPreference(String travelCompany, String flightID, SeatClass seatClass, int row, char col) {
+	}
+
     public void displaySystemDetails() {
 
     	System.out.println("---System---");
