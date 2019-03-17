@@ -129,7 +129,7 @@ public abstract class SystemManager {
     		System.out.println("NO AVAILABLE TRAVEL TYPES"); 
     	}
     }
-    public void bookSeat(String travelCompany, String flightID, SeatClass seatClass, int row, char col) {
+    public void bookSpot(String travelCompany, String flightID, SeatClass seatClass, int row, char col) {
     	boolean booked = false;
     	for(TravelCompany a : this.travelCompanies) {
     		if(a.getName().equals(travelCompany))
@@ -145,7 +145,7 @@ public abstract class SystemManager {
 
     }
 
-	public void bookSeatPreference(String travelCompany, String flightID, SeatClass seatClass, int row, char col) {
+	public void bookSpotPreference(String travelCompany, String flightID, SeatClass seatClass, int row, char col) {
 	}
 	
 	public void changeSpotPriceBySection(TravelType travelType, SeatClass seatClass, double newPrice) {

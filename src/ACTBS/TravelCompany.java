@@ -18,7 +18,7 @@ public class TravelCompany {
 		return this.name;
 	}
 	
-	ArrayList<TravelType> findTravelTypesByOriginDestination(String origin, String destination) {
+	public ArrayList<TravelType> findTravelTypesByOriginDestination(String origin, String destination) {
 		ArrayList<TravelType> travelTypes = new ArrayList<TravelType>();
 		for(TravelType i: this.travelList) {
 			if(origin.equals(i.getOrigin()) && destination.equals(i.getDestination())) {
