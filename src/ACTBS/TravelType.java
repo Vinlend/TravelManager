@@ -58,6 +58,16 @@ public abstract class TravelType {
 		return booked;
 	}
 	
+	public boolean bookByPreference(SeatClass seatClass, Position position) {
+		boolean booked = false;
+		for(Section i: sections) {
+			if(i.getSeatClass().equals(seatClass.name())) {
+				booked = i.bookByPreference(position);
+			}
+		}
+		return booked;
+	}
+	
 	public boolean addSection(Section s) {
 		if(this.sections != null) {
 			
