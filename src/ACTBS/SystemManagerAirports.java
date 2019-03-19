@@ -11,9 +11,9 @@ public class SystemManagerAirports extends SystemManager{
             for(TravelCompany i: this.travelCompanies) {
                 if(aname.equals(i.getName())) {
                     travelCompanyCheck = true;
-                    if(i.addTravelType(orig, dest, year, month, day, fID, TransportationType.FLIGHT))
-                    {System.out.println("Flight " + fID + " created");
-                        }
+                    if(i.addTravelType(orig, dest, year, month, day, fID, TransportationType.FLIGHT)){
+                    	System.out.println("Flight " + fID + " created");
+                    }
                 }
             }
             if(!travelCompanyCheck)

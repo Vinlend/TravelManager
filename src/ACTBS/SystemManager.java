@@ -45,8 +45,8 @@ public abstract class SystemManager {
     		}
     	
     		if(!success) {
-    		travelCompanies.add(airline); 
-    		System.out.println("TravelCompany " + airline.getName() + " created successfully");
+    			travelCompanies.add(airline); 
+    			System.out.println("TravelCompany " + airline.getName() + " created successfully");
     		}
     	}
     		catch(RuntimeException e) {
@@ -54,16 +54,17 @@ public abstract class SystemManager {
     	}
     	
     }
-    public void createTravelType(String aname, String orig, String dest, int year, int month, int day, String fID) {
+    
+    public void createTravelType(String aname, String orig, String dest, int year, int month, int day, String ID) {
 
     		
 
     		LocalDate localDate = LocalDate.now();
     		if(year < localDate.getYear() ) {
-    			throw new IllegalArgumentException("Flight " + fID + " not created: Invalid Date");
+    			throw new IllegalArgumentException("TravelType " + ID + " not created: Invalid Date");
     		}
     		if( (month > 12 || day > 31) || (month < 0 || day < 0)) {
-    			throw new IllegalArgumentException("Flight " + fID + " not created: Invalid Date");
+    			throw new IllegalArgumentException("TravelType " + ID + " not created: Invalid Date");
     		}
 
 
@@ -86,13 +87,13 @@ public abstract class SystemManager {
 	        	}
 	        }
 	        if(travelLocationNotFound)
-	        	System.out.println(String.format("Section with %s class for %s flight: %s -- Failed: no such travel location", seatClass.name(), travelCompany, ID));
+	        	System.out.println(String.format("Section with %s class for %s TravelType: %s -- Failed: no such travel location", seatClass.name(), travelCompany, ID));
         }
         catch(RowOutOfBoundsException e){
-            System.out.println(String.format("SECTION NOT CREATED :: TravelCompany: %s Flight: %s Class: %s :: REASON: %s", travelCompany, ID, seatClass, e.getMessage()));
+            System.out.println(String.format("SECTION NOT CREATED :: TravelCompany: %s TravelType: %s Class: %s :: REASON: %s", travelCompany, ID, seatClass, e.getMessage()));
         }
         catch(ColumnOutOfBoundsException e){
-            System.out.println(String.format("SECTION NOT CREATED :: TravelCompany: %s Flight: %s Class: %s :: REASON: %s", travelCompany, ID, seatClass, e.getMessage()));
+            System.out.println(String.format("SECTION NOT CREATED :: TravelCompany: %s TravelType: %s Class: %s :: REASON: %s", travelCompany, ID, seatClass, e.getMessage()));
 
         }
     }
@@ -138,10 +139,10 @@ public abstract class SystemManager {
 
     	if(booked) {
 
-    		System.out.println(String.format("Spot %d%s is booked on %s flight %s in %s class", row, col, travelCompany, ID, seatClass.name()));
+    		System.out.println(String.format("Spot %d%s is booked on %s TravelType %s in %s class", row, col, travelCompany, ID, seatClass.name()));
     	}
     	else
-    		System.out.println(String.format("Spot %d%s is not booked on %s flight %s in %s class", row, col, travelCompany, ID, seatClass.name()));
+    		System.out.println(String.format("Spot %d%s is not booked on %s TravelType %s in %s class", row, col, travelCompany, ID, seatClass.name()));
 
     }
 
@@ -154,10 +155,10 @@ public abstract class SystemManager {
 
     	if(booked) {
 
-    		System.out.println(String.format("Spot with position " + position.name() + " is booked on %s flight %s in %s class", travelCompany, ID, seatClass.name()));
+    		System.out.println(String.format("Spot with position " + position.name() + " is booked on %s TravelType %s in %s class", travelCompany, ID, seatClass.name()));
     	}
     	else
-    		System.out.println(String.format("Spot with position " + position.name() + " is not booked on %s flight %s in %s class", travelCompany, ID, seatClass.name()));
+    		System.out.println(String.format("Spot with position " + position.name() + " is not booked on %s TravelType %s in %s class", travelCompany, ID, seatClass.name()));
 	}
 	
 	public void changeSpotPriceBySection(TravelType travelType, SeatClass seatClass, double newPrice) {
@@ -167,7 +168,7 @@ public abstract class SystemManager {
 				s.setPrice(newPrice); 
 				System.out.println(seatClass.name() + " section price changed to " + newPrice);
 			} else {
-				System.out.println(seatClass.name() + " section price NOT changed to " + newPrice); 
+				System.out.println(seatClass.name() + " has not been created in TravelType " + travelType.getID() + " yet." ); 
 			}
 		}
 	}
