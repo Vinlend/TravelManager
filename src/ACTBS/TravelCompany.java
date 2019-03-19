@@ -37,6 +37,14 @@ public class TravelCompany {
 		}
 		return travelTypes;
 	}
+
+	public TravelType findTravelByID(String ID) {
+		for(TravelType tt: travelList) {
+			if(tt.getID().equalsIgnoreCase(ID))
+				return tt;
+		}
+		return null;
+	}
 	
 	public boolean bookByPreference(String ID, SeatClass seatClass, Position position) {
 		for(TravelType i: travelList) {

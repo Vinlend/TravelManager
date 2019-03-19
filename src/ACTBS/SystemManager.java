@@ -7,8 +7,8 @@ import ACTBS.SystemExceptions.*;
 
 public abstract class SystemManager {
 
-	public ArrayList<TravelLocation> travelLocations = new ArrayList<TravelLocation>(); 
-	public ArrayList<TravelCompany> travelCompanies = new ArrayList<TravelCompany>(); 
+	public ArrayList<TravelLocation> travelLocations = new ArrayList<>();
+	public ArrayList<TravelCompany> travelCompanies = new ArrayList<>();
 	
     public void createTravelLocation(String name) {
     	try {
@@ -161,23 +161,47 @@ public abstract class SystemManager {
     		System.out.println(String.format("Spot with position " + position.name() + " is not booked on %s TravelType %s in %s class", travelCompany, ID, seatClass.name()));
 	}
 	
-	public void changeSpotPriceBySection(TravelType travelType, SeatClass seatClass, double newPrice) {
-		List<Section> sections = travelType.getSections(); 
-		for(Section s: sections) {
-			if(s.getSeatClass().equals(seatClass.name())) {
-				s.setPrice(newPrice); 
-				System.out.println(seatClass.name() + " section price changed to " + newPrice);
-			} else {
-				System.out.println(seatClass.name() + " has not been created in TravelType " + travelType.getID() + " yet." ); 
+	public void changeSpotPriceBySection(String company, String travelID, SeatClass seatClass, double newPrice) {
+		boolean companyExist = false;
+		for (TravelCompany tc : travelCompanies) {
+			if (tc.getName().equalsIgnoreCase(company)) {
+				companyExist = true;
+				TravelType travelToUpdate = tc.findTravelByID(travelID);
+				if (travelToUpdate == null)
+					System.out.println("Invalid travel ID");
+				else {
+					for (Section travelTypeSections : travelToUpdate.getSections())
+						if (travelTypeSections.getSeatClass().equals(seatClass.name())) {
+							double changedPrice = travelTypeSections.getPrice();
+							travelTypeSections.setPrice(newPrice);
+							System.out.println(String.format("%s %s in class %s changed from %.2f to %.2f", company, travelID, seatClass.name(), changedPrice, newPrice));
+						}
+				}
 			}
 		}
+		if(!companyExist)
+			System.out.println("Travel company does not exist");
 	}
 	
-	public void changeSpotPriceByOriginDestination(TravelCompany travelCompany, SeatClass seatClass, String origin, String destination, double newPrice) {
-		List<TravelType> travelTypes = travelCompany.findTravelTypesByOriginDestination(origin, destination); 
-		for(TravelType t: travelTypes) {
-			changeSpotPriceBySection(t, seatClass, newPrice); 
+	public void changeSpotPriceByOriginDestination(String company, SeatClass seatClass, String origin, String destination, double newPrice) {
+		boolean companyExist = false;
+		for (TravelCompany tc : travelCompanies) {
+			if (tc.getName().equalsIgnoreCase(company)) {
+				companyExist = true;
+				List<TravelType> travelTypes = tc.findTravelTypesByOriginDestination(origin, destination);
+				for(TravelType traveltt : travelTypes) {
+					for(Section sectionTravel: traveltt.getSections()) {
+						if(sectionTravel.getSeatClass().equals(seatClass.name())) {
+							sectionTravel.setPrice(newPrice);
+							System.out.println(String.format("Price of %s class for all travels from %s to %s in %s company has been changed to %2.f", seatClass.name(), origin, destination, company, newPrice));
+						}
+					}
+				}
+			}
 		}
+
+		if(!companyExist)
+			System.out.println("Travel company does not exist");
 	}
 	
     public void displaySystemDetails() {
@@ -192,8 +216,5 @@ public abstract class SystemManager {
     	{
     		System.out.println(al);
     	}
-    		
-        
-
     }
 }

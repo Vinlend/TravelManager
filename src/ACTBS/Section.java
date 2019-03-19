@@ -178,7 +178,7 @@ public class Section {
         return section;
     }
 
-    public void printBooked() {
+    private void printBooked() {
         for (int row = 0; row < spots.length; row++) {
             for (int col = 0; col < spots[0].length; col++)
                 System.out.print(spots[row][col].isBooked() + " ");

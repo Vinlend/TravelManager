@@ -67,7 +67,7 @@ class SectionTest {
 
         assertEquals(true, testSectionSmall.bookByPreference(Position.WINDOW));
 
-        testSectionMedium.printBooked();
-        testSectionSmall.printBooked();
+        //testSectionMedium.printBooked();
+        //testSectionSmall.printBooked();
     }
 }

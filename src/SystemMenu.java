@@ -1,4 +1,3 @@
-import ACTBS.SystemManager;
 import ACTBS.SystemManagerAirports;
 import ACTBS.SystemManagerCruises;
 
@@ -15,8 +14,8 @@ public class SystemMenu {
     }
 
     private static void generalMenu(Scanner sc) {
-        SystemManager managerAirports = new SystemManagerAirports();
-        SystemManager managerPorts = new SystemManagerCruises();
+        Client connectionCruises = new Client(new SystemManagerCruises());
+        Client connectionAirports = new Client(new SystemManagerAirports());
         boolean flag = true;
         while(flag) {
             System.out.println(
@@ -33,16 +32,16 @@ public class SystemMenu {
 
             switch (menuItemChosen) {
                 case 1:
-                    airportSysMenu(sc, managerAirports);
+                    airportSysMenu(sc, connectionAirports);
                     break;
                 case 2:
-                    cruiseSysMenu(sc, managerPorts);
+                    cruiseSysMenu(sc, connectionCruises);
                     break;
                 case 3:
-                    managerAirports.displaySystemDetails();
+                    connectionAirports.displaySystemDetails();
                     break;
                 case 4:
-                    managerPorts.displaySystemDetails();
+                    connectionCruises.displaySystemDetails();
                     break;
                 case 0:
                     flag = false;
@@ -74,7 +73,7 @@ public class SystemMenu {
         return menuItem;
     }
 
-    private static void airportSysMenu(Scanner sc, SystemManager managerAirports){
+    private static void airportSysMenu(Scanner sc, Client connectionAirports){
         System.out.println(
                 "Airport System Menu:\n" +
                 "1. Load system from a file.\n" +
@@ -87,45 +86,10 @@ public class SystemMenu {
                 "8. Save airport system in a file.\n" +
                 "0. Exit to the previous menu");
 
-        boolean flag = true;
-        while(flag) {
-            System.out.println("Choose menu item:");
-            int menuItemChosen = readMenuItems(sc);
-
-            switch (menuItemChosen) {
-                case 1:
-                    //managerAirports.loadFromFile();
-                    break;
-                case 2:
-                    //managerAirports.changeSpotPriceBySection();
-                    break;
-                case 3:
-                    // managerAirports.findAvailableTravels();
-                    break;
-                case 4:
-                    //managerAirports.changePriceByOriginDestination();
-                    break;
-                case 5:
-                    //managerAirports.bookSpot();
-                    break;
-                case 6:
-                    //managerAirports.bookSpotPreference();
-                    break;
-                case 7:
-                    //managerAirports.displaySystemDetails();
-                    break;
-                case 8:
-                    //managerAirports.saveToFile();
-                    break;
-                case 0:
-                    flag = false;
-                    break;
-            }
-        }
-
+        exectuteMenu(sc, connectionAirports);
     }
 
-    private static void cruiseSysMenu(Scanner sc, SystemManager managerPorts){
+    private static void cruiseSysMenu(Scanner sc, Client connectionCruises){
         System.out.println(
                 "Cruise System Menu:\n" +
                 "1. Load system from a file.\n" +
@@ -138,6 +102,10 @@ public class SystemMenu {
                 "8. Save cruise system in a file.\n" +
                 "0. Exit ot the previous menu");
 
+        exectuteMenu(sc, connectionCruises);
+    }
+
+    private static void exectuteMenu(Scanner sc, Client connection) {
         boolean flag = true;
         while(flag) {
             System.out.println("Choose menu item:");
@@ -145,28 +113,28 @@ public class SystemMenu {
 
             switch (menuItemChosen) {
                 case 1:
-                    //managerPorts.loadFromFile();
+                    connection.loadFromFile(sc);
                     break;
                 case 2:
-                    //managerPorts.changePriceTrip();
+                    connection.changePriceTrip(sc);
                     break;
                 case 3:
-                    //managerPorts.findTrips();
+                    connection.findTrips(sc);
                     break;
                 case 4:
-                    // managerPorts.changePriceTravel();
+                     connection.changePriceTravel(sc);
                     break;
                 case 5:
-                    // managerPorts.bookSpot();
+                     connection.bookSpot(sc);
                     break;
                 case 6:
-                    //managerPorts.bookSpotPreference();
+                    connection.bookSpotPreference(sc);
                     break;
                 case 7:
-                    managerPorts.displaySystemDetails();
+                    connection.displaySystemDetails();
                     break;
                 case 8:
-                    //managerPorts.saveToFile();
+                    connection.saveToFile(sc);
                     break;
                 case 0:
                     flag = false;
