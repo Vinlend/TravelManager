@@ -38,10 +38,19 @@ public class TravelCompany {
 		return travelTypes;
 	}
 	
+	public boolean bookByPreference(String ID, SeatClass seatClass, Position position) {
+		for(TravelType i: travelList) {
+			if(ID.equals(i.getID())) {
+				return i.bookByPreference(seatClass, position);
+			}
+		}
+		return false; 
+	}
+	
 	public boolean book(String fID, SeatClass seatClass, int row, char col)  {
 		for(TravelType i: travelList) {
 			if(fID.equals(i.getID())) {
-				return i.book(seatClass, row, colToNum(col));
+				return i.book(seatClass, row, (int)(Character.toUpperCase(col)-65));
 			}
 		}
 		return false; 
@@ -106,48 +115,7 @@ public class TravelCompany {
 		return false;
 	}
 
-	/*
-	fix it to one line inside of the method that calls it
-	 */
-	private int colToNum(char col) {
-		int colNum = 0;
-		switch(Character.toLowerCase(col)) {
-        	case 'a' :
-        		colNum = 0;
-        		break;
-        	case 'b' :
-        		colNum = 1;
-        		break;
-        	case 'c' :
-        		colNum = 2;
-        		break;
-        	case 'd' :
-        		colNum = 3;
-        		break;
-        	case 'e' :
-        		colNum = 4;
-        		break;
-        	case 'f' :
-        		colNum = 5;
-        		break;
-        	case 'g' :
-        		colNum = 6;
-        		break;
-        	case 'h' :
-        		colNum = 7;
-        		break;
-        	case 'i' :
-        		colNum = 8;
-        		break;
-        	case 'j' :
-        		colNum = 9;
-        		break;
-        	default :
-        		break;
-		}
-		return colNum;
-		
-	}
+	
 	
 	@Override 
 	public String toString() {

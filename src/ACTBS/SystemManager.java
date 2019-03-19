@@ -129,23 +129,35 @@ public abstract class SystemManager {
     		System.out.println("NO AVAILABLE TRAVEL TYPES"); 
     	}
     }
-    public void bookSpot(String travelCompany, String flightID, SeatClass seatClass, int row, char col) {
+    public void bookSpot(String travelCompany, String ID, SeatClass seatClass, int row, char col) {
     	boolean booked = false;
     	for(TravelCompany a : this.travelCompanies) {
     		if(a.getName().equals(travelCompany))
-    				booked = a.book(flightID, seatClass, row, col);
+    				booked = a.book(ID, seatClass, row, col);
     	}
 
     	if(booked) {
 
-    		System.out.println(String.format("Spot %d%s is booked on %s flight %s in %s class", row, col, travelCompany, flightID, seatClass.name()));
+    		System.out.println(String.format("Spot %d%s is booked on %s flight %s in %s class", row, col, travelCompany, ID, seatClass.name()));
     	}
     	else
-    		System.out.println(String.format("Spot %d%s is not booked on %s flight %s in %s class", row, col, travelCompany, flightID, seatClass.name()));
+    		System.out.println(String.format("Spot %d%s is not booked on %s flight %s in %s class", row, col, travelCompany, ID, seatClass.name()));
 
     }
 
-	public void bookSpotPreference(String travelCompany, String flightID, SeatClass seatClass, int row, char col) {
+	public void bookSpotPreference(String travelCompany, String ID, SeatClass seatClass, Position positon) {
+		boolean booked = false;
+    	for(TravelCompany a : this.travelCompanies) {
+    		if(a.getName().equals(travelCompany))
+    				booked = a.bookByPreference(ID, seatClass, position);
+    	}
+
+    	if(booked) {
+
+    		System.out.println(String.format("Spot with position " + position.name() + " is booked on %s flight %s in %s class", travelCompany, ID, seatClass.name()));
+    	}
+    	else
+    		System.out.println(String.format("Spot with position " + position.name() + " is not booked on %s flight %s in %s class", travelCompany, ID, seatClass.name()));
 	}
 	
 	public void changeSpotPriceBySection(TravelType travelType, SeatClass seatClass, double newPrice) {
@@ -153,7 +165,9 @@ public abstract class SystemManager {
 		for(Section s: sections) {
 			if(s.getSeatClass().equals(seatClass.name())) {
 				s.setPrice(newPrice); 
-				System.out.println(seatClass.name() + "section price changed to " + newPrice);
+				System.out.println(seatClass.name() + " section price changed to " + newPrice);
+			} else {
+				System.out.println(seatClass.name() + " section price NOT changed to " + newPrice); 
 			}
 		}
 	}
@@ -164,6 +178,7 @@ public abstract class SystemManager {
 			changeSpotPriceBySection(t, seatClass, newPrice); 
 		}
 	}
+	
     public void displaySystemDetails() {
 
     	System.out.println("---System---");
