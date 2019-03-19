@@ -45,8 +45,8 @@ class SpotTest {
         Section testSectionWide = new Section(2, SeatLayout.WIDE, SeatClass.BUSINESS, 100);
         Section testSectionSmall = new Section(2, SeatLayout.SMALL, SeatClass.BUSINESS, 100);
 
-        testSectionMedium.printPositions();
+       /* testSectionMedium.printPositions();
         testSectionWide.printPositions();
-        testSectionSmall.printPositions();
+        testSectionSmall.printPositions();*/
     }
 }
