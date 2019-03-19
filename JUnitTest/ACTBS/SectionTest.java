@@ -48,4 +48,26 @@ class SectionTest {
 
         assertEquals(sectionSmall, testSectionSmall.toString());
     }
+
+    @Test
+    void bookByPreference() {
+
+        assertEquals(true, testSectionMedium.bookByPreference(Position.AISLE));
+
+        assertEquals(true, testSectionMedium.bookByPreference(Position.AISLE));
+
+        assertEquals(true, testSectionMedium.bookByPreference(Position.WINDOW));
+
+
+        assertEquals(true, testSectionSmall.bookByPreference(Position.AISLE));
+
+        assertEquals(true, testSectionSmall.bookByPreference(Position.AISLE));
+
+        assertEquals(true, testSectionSmall.bookByPreference(Position.WINDOW));
+
+        assertEquals(true, testSectionSmall.bookByPreference(Position.WINDOW));
+
+        testSectionMedium.printBooked();
+        testSectionSmall.printBooked();
+    }
 }

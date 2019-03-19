@@ -62,7 +62,28 @@ public class Section {
     }
 
     public boolean bookByPreference(Position position) {
-        return false;
+        boolean booked = false;
+        boolean preference = true;
+        boolean hasSpots = hasAvailableSpots();
+        while(!booked && hasSpots) {
+            for (int row = 0; row < spots.length; row++) {
+                for (int col = 0; col < spots[0].length; col++) {
+                    if ((spots[row][col].getPosition().equals(position) || spots[row][col].getPosition().equals(Position.BOTH))
+                            && !spots[row][col].isBooked()
+                            && !booked
+                            && preference) {
+                        spots[row][col].book();
+                        booked = true;
+                    }
+                    else if(!spots[row][col].isBooked() && !preference) {
+                        spots[row][col].book();
+                        booked = true;
+                    }
+                }
+            }
+            preference = false;
+        }
+        return booked;
     }
 
     private void initializeSpots(SeatLayout layout) {
@@ -157,7 +178,7 @@ public class Section {
         return section;
     }
 
-    private void printBooked() {
+    public void printBooked() {
         for (int row = 0; row < spots.length; row++) {
             for (int col = 0; col < spots[0].length; col++)
                 System.out.print(spots[row][col].isBooked() + " ");
@@ -166,7 +187,7 @@ public class Section {
 
     }
 
-    public void printPositions() {
+    private void printPositions() {
         for (int row = 0; row < spots.length; row++) {
             for (int col = 0; col < spots[0].length; col++)
                 System.out.print(spots[row][col].getPosition() + " ");
