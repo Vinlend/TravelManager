@@ -57,6 +57,7 @@ public abstract class TravelType {
 		}
 		return booked;
 	}
+
 	
 	public boolean bookByPreference(SeatClass seatClass, Position position) {
 		boolean booked = false;
