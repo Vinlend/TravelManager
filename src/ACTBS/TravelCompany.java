@@ -75,7 +75,7 @@ public class TravelCompany {
 
 	}
 	
-	public boolean addTravelTypeSection(String ID, int rows, int cols, SeatClass seatClass, double price) {
+	public boolean addTravelTypeSection(String ID, int rows, SeatLayout seatLayout, SeatClass seatClass, double price) {
 		for(TravelType t : this.travelList) {
 			if(t.getID().equals(ID)) {
 				try {
@@ -95,7 +95,7 @@ public class TravelCompany {
 						System.out.println("Origin/Destination combination not unique, so the price provided was overwritten by previously established price");
 					}
 					
-					t.addSection(new Section(rows, cols, seatClass, price));
+					t.addSection(new Section(rows, seatLayout, seatClass, price));
 					return true;
 				}
 				catch(RuntimeException e) {

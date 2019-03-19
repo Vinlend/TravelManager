@@ -9,17 +9,14 @@ public class Section {
     private double price;
 
 
-    public Section(int rows, int cols, SeatClass seatClass, double price) {
+    public Section(int rows, SeatLayout seatLayout, SeatClass seatClass, double price) {
         if (rows < 1 || rows > 100)
             throw new RowOutOfBoundsException("Rows out of range(1,100):Section");
-        if (cols < 1 || cols > 10)
-            throw new ColumnOutOfBoundsException("Columns out of range(1,10):Section");
         if(price < 0)
             throw new PriceIsNegativeException("Price cannot be negative");
 
-        this.spots = new Spot[rows][cols];
-
-        initializeSpots();
+        this.spots = new Spot[rows][seatLayout.getColumn()];
+        initializeSpots(seatLayout);
 
         this.seatClass = seatClass;
         this.price = price;
@@ -65,11 +62,63 @@ public class Section {
     }
 
 
-    private void initializeSpots() {
+    private void initializeSpots(SeatLayout layout) {
 
+        switch (layout){
+            case WIDE:
+                initializeWide();
+                break;
+            case SMALL:
+                initializeSmall();
+                break;
+            case MEDIUM:
+                initializeMedium();
+                break;
+        }
+    }
+
+
+    private void initializeWide(){
+        Position position;
         for (int row = 0; row < spots.length; row++) {
             for (int col = 0; col < spots[0].length; col++) {
-                spots[row][col] = new Spot(row+1, col+1);
+                if(col == 0 || col == spots[0].length-1)
+                    position = Position.WINDOW;
+                else if(col == 2 || col == 3 || col == 6 || col == 7)
+                    position = Position.AISLE;
+                else
+                    position = Position.NONE;
+                spots[row][col] = new Spot(row+1, col+1, position);
+            }
+        }
+    }
+    private void initializeMedium() {
+        Position position;
+        for (int row = 0; row < spots.length; row++) {
+            for (int col = 0; col < spots[0].length; col++) {
+                if(col == 0 || col == spots[0].length-1)
+                    position = Position.WINDOW;
+                else if(col == 1 || col == 2)
+                    position = Position.AISLE;
+                else
+                    position = Position.NONE;
+                spots[row][col] = new Spot(row+1, col+1, position);
+            }
+        }
+    }
+    private void initializeSmall() {
+        Position position;
+        for (int row = 0; row < spots.length; row++) {
+            for (int col = 0; col < spots[0].length; col++) {
+                if(col == 0)
+                    position = Position.BOTH;
+                else if(col == spots[0].length-1)
+                    position = Position.WINDOW;
+                else if(col == 1)
+                    position = Position.AISLE;
+                else
+                    position = Position.NONE;
+                spots[row][col] = new Spot(row+1, col+1, position);
             }
         }
     }
@@ -88,7 +137,7 @@ public class Section {
         return section;
     }
     
-    public String getAvailableSports() {
+    public String getAvailableSpots() {
         String section = String.format("%s class: (Price: " + this.getPrice() + ")\n", getSeatClass() );
 
         for (int row = 0; row < spots.length; row++) {
@@ -113,5 +162,13 @@ public class Section {
         }
 
     }
-    
+
+    public void printPositions() {
+        for (int row = 0; row < spots.length; row++) {
+            for (int col = 0; col < spots[0].length; col++)
+                System.out.print(spots[row][col].getPosition() + " ");
+            System.out.println("\n");
+        }
+
+    }
 }
