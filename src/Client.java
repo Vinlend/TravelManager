@@ -1,5 +1,7 @@
 import ACTBS.SeatClass;
 import ACTBS.SystemManager;
+import ACTBS.SystemManagerAirports;
+import ACTBS.SystemManagerCruises;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -72,7 +74,42 @@ public class Client {
     }
 
     public void findTrips(Scanner sc) {
-        manager.findAvailableTravels("","",SeatClass.ECONOMY,0,0,0);
+        if(manager instanceof SystemManagerCruises)
+            System.out.println("Find available cabins.");
+        else if(manager instanceof SystemManagerAirports)
+            System.out.println("Find available seats");
+        String origin;
+        String destination;
+        SeatClass seatClass;
+        int year;
+        int month;
+        int day;
+        sc.nextLine();
+        boolean stop = false;
+        while(!stop) {
+            try {
+                System.out.println("Enter origin(ex: GEG):");
+                origin = sc.nextLine();
+                System.out.println("Enter destination(ex: GEG):");
+                destination = sc.nextLine();
+
+                seatClass = getSeatClass(sc);
+
+                System.out.println("Enter year(ex: 2019):");
+                year = sc.nextInt();
+                System.out.println("Enter month(ex: 10):");
+                month = sc.nextInt();
+                System.out.println("Enter day(ex: 25):");
+                day = sc.nextInt();
+
+                manager.findAvailableTravels(origin, destination, seatClass, year, month, day);
+                stop = true;
+            } catch (InputMismatchException e) {
+                System.out.println(e.getMessage());
+            } catch (RuntimeException e) {
+                System.out.println(e.getMessage());
+            }
+        }
     }
 
     public void changePriceTravel(Scanner sc) {
