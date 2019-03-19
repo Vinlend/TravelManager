@@ -61,6 +61,9 @@ public class Section {
         return false;
     }
 
+    public boolean bookByPreference(Position position) {
+        return false;
+    }
 
     private void initializeSpots(SeatLayout layout) {
 

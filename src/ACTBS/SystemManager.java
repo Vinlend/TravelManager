@@ -145,7 +145,7 @@ public abstract class SystemManager {
 
     }
 
-	public void bookSpotPreference(String travelCompany, String ID, SeatClass seatClass, Position positon) {
+	public void bookSpotPreference(String travelCompany, String ID, SeatClass seatClass, Position position) {
 		boolean booked = false;
     	for(TravelCompany a : this.travelCompanies) {
     		if(a.getName().equals(travelCompany))
