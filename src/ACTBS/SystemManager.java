@@ -69,7 +69,7 @@ public abstract class SystemManager {
 
     }
 
-    public void createSection(String travelCompany, String ID, int rows, int cols, SeatClass seatClass, double price) {
+    public void createSection(String travelCompany, String ID, int rows, SeatLayout seatLayout, SeatClass seatClass, double price) {
 
     try {
 	    	boolean travelLocationNotFound = true;
@@ -79,7 +79,7 @@ public abstract class SystemManager {
 		        	travelLocationNotFound = false;
 		        	
 		        	
-	        		if(i.addTravelTypeSection(ID, rows, cols, seatClass, price))
+	        		if(i.addTravelTypeSection(ID, rows, seatLayout, seatClass, price))
 	        			System.out.println(String.format("Section with %s class for %s travel type: %s -- Created", seatClass.name(), travelCompany, ID));
 	        		else
 	        			System.out.println(String.format("Section with %s class for %s travel type: %s -- Failed", seatClass.name(), travelCompany, ID));
@@ -116,7 +116,7 @@ public abstract class SystemManager {
 	    			for(Section s: j.getSections()) {
 	    				
 	    				if(s.hasAvailableSpots()) {
-	    					System.out.println("\n\t" +s.getAvailableSports());
+	    					System.out.println("\n\t" +s.getAvailableSpots());
 	    					
 	    				}
 	    			}
