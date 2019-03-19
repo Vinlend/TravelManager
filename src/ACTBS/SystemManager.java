@@ -162,46 +162,47 @@ public abstract class SystemManager {
 	}
 	
 	public void changeSpotPriceBySection(String company, String travelID, SeatClass seatClass, double newPrice) {
-		boolean companyExist = false;
-		for (TravelCompany tc : travelCompanies) {
-			if (tc.getName().equalsIgnoreCase(company)) {
-				companyExist = true;
-				TravelType travelToUpdate = tc.findTravelByID(travelID);
-				if (travelToUpdate == null)
-					System.out.println("Invalid travel ID");
-				else {
+		TravelCompany travelCompanyToUpdate = findCompany(company);
+		if(travelCompanyToUpdate == null)
+			System.out.println("ERROR: price has not been changed: Travel company does not exist");
+		else {
+			TravelType travelToUpdate = travelCompanyToUpdate.findTravelByID(travelID);
+			if (travelToUpdate == null)
+				System.out.println("ERROR: price has not been changed: Invalid travel number");
+			else {
 					for (Section travelTypeSections : travelToUpdate.getSections())
 						if (travelTypeSections.getSeatClass().equals(seatClass.name())) {
 							double changedPrice = travelTypeSections.getPrice();
 							travelTypeSections.setPrice(newPrice);
 							System.out.println(String.format("%s %s in class %s changed from %.2f to %.2f", company, travelID, seatClass.name(), changedPrice, newPrice));
 						}
-				}
 			}
 		}
-		if(!companyExist)
-			System.out.println("Travel company does not exist");
 	}
 	
 	public void changeSpotPriceByOriginDestination(String company, SeatClass seatClass, String origin, String destination, double newPrice) {
-		boolean companyExist = false;
-		for (TravelCompany tc : travelCompanies) {
-			if (tc.getName().equalsIgnoreCase(company)) {
-				companyExist = true;
-				List<TravelType> travelTypes = tc.findTravelTypesByOriginDestination(origin, destination);
+		TravelCompany travelCompanyToUpdate = findCompany(company);
+		if(travelCompanyToUpdate == null)
+			System.out.println("ERROR: price has not been changed: Travel company does not exist");
+		else {
+				List<TravelType> travelTypes = travelCompanyToUpdate.findTravelTypesByOriginDestination(origin, destination);
 				for(TravelType traveltt : travelTypes) {
 					for(Section sectionTravel: traveltt.getSections()) {
 						if(sectionTravel.getSeatClass().equals(seatClass.name())) {
 							sectionTravel.setPrice(newPrice);
-							System.out.println(String.format("Price of %s class for all travels from %s to %s in %s company has been changed to %2.f", seatClass.name(), origin, destination, company, newPrice));
 						}
 					}
 				}
-			}
+			System.out.println(String.format("Price of %s class for all travels from %s to %s in %s company has been changed to %.2f", seatClass.name(), origin, destination, company, newPrice));
 		}
+    }
 
-		if(!companyExist)
-			System.out.println("Travel company does not exist");
+	private TravelCompany findCompany(String companyName) {
+		for (TravelCompany tc : travelCompanies) {
+			if (tc.getName().equalsIgnoreCase(companyName))
+				return tc;
+		}
+		return null;
 	}
 	
     public void displaySystemDetails() {

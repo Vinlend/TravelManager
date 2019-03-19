@@ -74,40 +74,45 @@ public class SystemMenu {
     }
 
     private static void airportSysMenu(Scanner sc, Client connectionAirports){
-        System.out.println(
-                "Airport System Menu:\n" +
-                "1. Load system from a file.\n" +
-                "2. Change price of the seat class of the flight.\n" +
-                "3. Find available seats.\n" +
-                "4. Change price of the seat class for specified origin and destination for Airline.\n" +
-                "5. Book a specified seat on a flight.\n" +
-                "6. Book a seat by a preference.\n" +
-                "7. Display airport system.\n" +
-                "8. Save airport system in a file.\n" +
-                "0. Exit to the previous menu");
-
-        exectuteMenu(sc, connectionAirports);
-    }
-
-    private static void cruiseSysMenu(Scanner sc, Client connectionCruises){
-        System.out.println(
-                "Cruise System Menu:\n" +
-                "1. Load system from a file.\n" +
-                "2. Change price of the cabin class of the trip.\n" +
-                "3. Find available cabins.\n" +
-                "4. Change price of the cabin class for specified origin and destination for Cruise.\n" +
-                "5. Book a specified cabin on a trip.\n" +
-                "6. Book a cabin by a preference.\n" +
-                "7. Display Cruise system.\n" +
-                "8. Save cruise system in a file.\n" +
-                "0. Exit ot the previous menu");
-
-        exectuteMenu(sc, connectionCruises);
-    }
-
-    private static void exectuteMenu(Scanner sc, Client connection) {
         boolean flag = true;
         while(flag) {
+            System.out.println(
+                    "Airport System Menu:\n" +
+                            "1. Load system from a file.\n" +
+                            "2. Change price of the seat class of the flight.\n" +
+                            "3. Find available seats.\n" +
+                            "4. Change price of the seat class for specified origin and destination for Airline.\n" +
+                            "5. Book a specified seat on a flight.\n" +
+                            "6. Book a seat by a preference.\n" +
+                            "7. Display airport system.\n" +
+                            "8. Save airport system in a file.\n" +
+                            "0. Exit to the previous menu");
+
+            flag = exectuteMenu(sc, connectionAirports);
+        }
+    }
+
+    private static void cruiseSysMenu(Scanner sc, Client connectionCruises) {
+        boolean flag = true;
+        while (flag) {
+            System.out.println(
+                    "Cruise System Menu:\n" +
+                            "1. Load system from a file.\n" +
+                            "2. Change price of the cabin class of the trip.\n" +
+                            "3. Find available cabins.\n" +
+                            "4. Change price of the cabin class for specified origin and destination for Cruise.\n" +
+                            "5. Book a specified cabin on a trip.\n" +
+                            "6. Book a cabin by a preference.\n" +
+                            "7. Display Cruise system.\n" +
+                            "8. Save cruise system in a file.\n" +
+                            "0. Exit ot the previous menu");
+
+            flag = exectuteMenu(sc, connectionCruises);
+        }
+    }
+
+    private static boolean exectuteMenu(Scanner sc, Client connection) {
+
             System.out.println("Choose menu item:");
             int menuItemChosen = readMenuItems(sc);
 
@@ -137,11 +142,10 @@ public class SystemMenu {
                     connection.saveToFile(sc);
                     break;
                 case 0:
-                    flag = false;
-                    break;
+                    return false;
             }
+            return true;
         }
-    }
 
 }
 
