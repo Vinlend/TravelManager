@@ -1,6 +1,7 @@
 package ACTBS;
 
 
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -389,7 +390,7 @@ public abstract class SystemManager {
 		
 	}
 	
-	public boolean saveToFile() {
+	public boolean saveToFile(FileWriter writer) {
 		return false; 
 	}
 	

@@ -46,7 +46,7 @@ public class Section {
 
         for (int row = 0; row < spots.length; row++) {
             for (int col = 0; col < spots[0].length; col++)
-                if (spots[row][col].isBooked() == false)
+                if (!spots[row][col].isBooked())
                     return true;
         }
         return false;
@@ -54,7 +54,7 @@ public class Section {
 
     public boolean bookSpot(int row, int col) {
 
-        if (spots[row-1][col].isBooked() == false) {
+        if (!spots[row-1][col].isBooked()) {
             spots[row-1][col].book();
             return true;
         }
