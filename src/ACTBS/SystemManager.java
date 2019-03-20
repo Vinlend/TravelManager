@@ -1,10 +1,13 @@
 package ACTBS;
 
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+
 import java.time.LocalDate;
 import java.util.*;
+import java.util.List;
 
 import ACTBS.SystemExceptions.*;
 
@@ -126,49 +129,51 @@ public abstract class SystemManager {
     
     public void findAvailableTravels(String orig, String dest, SeatClass seatClass, int year, int month, int day) {
     	int count = 0; 
+		if(year < 2019)
+			System.out.println("ERROR: incorrect year\n");
+		else if(month < 1 || month > 12)
+			System.out.println("ERROR: incorrect month\n");
+		else if(day < 1 || day > 31)
+			System.out.println("ERROR: incorrect day\n");
+		else {
+			System.out.println("--------Available ----------");
+			for (TravelCompany i : travelCompanies) {
+				for (TravelType j : i.findTravelTypes(orig, dest, year, month, day)) {
+					count++;
+					if (j.getSections() == null)
+						System.out.println(String.format("\tTravelCompany: %s TravelType: %s Origin: %s Destination: %s Date %s", i.getName(), j.getID(), j.getOrigin(), j.getDestination(), j.getDate()));
+					else {
+						System.out.println("-----------------------------------");
+						System.out.println("TravelCompany: " + i.getName());
+						System.out.println("Origin: " + orig);
+						System.out.println("Destination: " + dest);
+						System.out.println("Date: " + j.getDate());
+						for (Section s : j.getSections()) {
 
-		System.out.println("--------Available ----------");
-    	for(TravelCompany i: travelCompanies) {
-    		for(TravelType j: i.findTravelTypes(orig, dest, year, month, day)){
-    			count++;
-    			if(j.getSections() == null)
-        			System.out.println(String.format("\tTravelCompany: %s TravelType: %s Origin: %s Destination: %s Date %s", i.getName(), j.getID(), j.getOrigin(), j.getDestination(), j.getDate()));
-    			else
-    			{
-    				System.out.println("-----------------------------------");
-					System.out.println("TravelCompany: " + i.getName());
-    				System.out.println("Origin: " + orig);
-    				System.out.println("Destination: " + dest);
-    				System.out.println("Date: " + j.getDate());
-	    			for(Section s: j.getSections()) {
-	    				
-	    				if(s.hasAvailableSpots()) {
-	    					System.out.println("\n\t" +s.getAvailableSpots());
-	    					
-	    				}
-	    			}
-	    			System.out.println("-----------------------------------");
-    			}
-    		}
-    	}
-    	
-    	if(count == 0) {
-    		System.out.println("NO AVAILABLE TRAVEL TYPES"); 
-    	}
+							if (s.hasAvailableSpots()) {
+								System.out.println("\n\t" + s.getAvailableSpots());
+
+							}
+						}
+						System.out.println("-----------------------------------");
+					}
+				}
+			}
+
+			if (count == 0) {
+				System.out.println("NO AVAILABLE TRAVEL TYPES");
+			}
+		}
     }
     public void bookSpot(String travelCompany, String ID, SeatClass seatClass, int row, char col) {
+    	col = Character.toUpperCase(col);
     	boolean booked = false;
     	for(TravelCompany a : this.travelCompanies) {
     		if(a.getName().equals(travelCompany))
     				booked = a.book(ID, seatClass, row, col);
     	}
 
-    	if(booked) {
-
-    		System.out.println(String.format("Spot %d%s is booked on %s TravelType %s in %s class", row, col, travelCompany, ID, seatClass.name()));
-    	}
-    	else
-    		System.out.println(String.format("Spot %d%s is not booked on %s TravelType %s in %s class", row, col, travelCompany, ID, seatClass.name()));
+    	System.out.println(String.format("Spot %d%s " + ((booked) ? ("has been booked") : ("has not been booked")) + " on %s %s in %s class", row, col, travelCompany, ID, seatClass.name().toLowerCase()));
 
     }
 
@@ -179,55 +184,51 @@ public abstract class SystemManager {
     				booked = a.bookByPreference(ID, seatClass, position);
     	}
 
-    	if(booked) {
-
-    		System.out.println(String.format("Spot with position " + position.name() + " is booked on %s TravelType %s in %s class", travelCompany, ID, seatClass.name()));
-    	}
-    	else
-    		System.out.println(String.format("Spot with position " + position.name() + " is not booked on %s TravelType %s in %s class", travelCompany, ID, seatClass.name()));
-	}
+    	System.out.println(String.format("Spot by %s" + ((booked) ? ("has been booked") : ("has not been booked")) + " on %s %s in %s class", position.name().toLowerCase(), travelCompany, ID, seatClass.name().toLowerCase()));
+    }
 	
 	public void changeSpotPriceBySection(String company, String travelID, SeatClass seatClass, double newPrice) {
-		boolean companyExist = false;
-		for (TravelCompany tc : travelCompanies) {
-			if (tc.getName().equalsIgnoreCase(company)) {
-				companyExist = true;
-				TravelType travelToUpdate = tc.findTravelByID(travelID);
-				if (travelToUpdate == null)
-					System.out.println("Invalid travel ID");
-				else {
+		TravelCompany travelCompanyToUpdate = findCompany(company);
+		if(travelCompanyToUpdate == null)
+			System.out.println("ERROR: price has not been changed: Travel company does not exist\n");
+		else {
+			TravelType travelToUpdate = travelCompanyToUpdate.findTravelByID(travelID);
+			if (travelToUpdate == null)
+				System.out.println("ERROR: price has not been changed: Invalid travel number\n");
+			else {
 					for (Section travelTypeSections : travelToUpdate.getSections())
 						if (travelTypeSections.getSeatClass().equals(seatClass.name())) {
 							double changedPrice = travelTypeSections.getPrice();
 							travelTypeSections.setPrice(newPrice);
-							System.out.println(String.format("%s %s in class %s changed from %.2f to %.2f", company, travelID, seatClass.name(), changedPrice, newPrice));
+							System.out.println(String.format("%s %s in class %s changed from %.2f to %.2f\n", company, travelID, seatClass.name(), changedPrice, newPrice));
 						}
-				}
 			}
 		}
-		if(!companyExist)
-			System.out.println("Travel company does not exist");
 	}
 	
 	public void changeSpotPriceByOriginDestination(String company, SeatClass seatClass, String origin, String destination, double newPrice) {
-		boolean companyExist = false;
-		for (TravelCompany tc : travelCompanies) {
-			if (tc.getName().equalsIgnoreCase(company)) {
-				companyExist = true;
-				List<TravelType> travelTypes = tc.findTravelTypesByOriginDestination(origin, destination);
+		TravelCompany travelCompanyToUpdate = findCompany(company);
+		if(travelCompanyToUpdate == null)
+			System.out.println("ERROR: price has not been changed: Travel company does not exist\n");
+		else {
+				List<TravelType> travelTypes = travelCompanyToUpdate.findTravelTypesByOriginDestination(origin, destination);
 				for(TravelType traveltt : travelTypes) {
 					for(Section sectionTravel: traveltt.getSections()) {
 						if(sectionTravel.getSeatClass().equals(seatClass.name())) {
 							sectionTravel.setPrice(newPrice);
-							System.out.println(String.format("Price of %s class for all travels from %s to %s in %s company has been changed to %2.f", seatClass.name(), origin, destination, company, newPrice));
 						}
 					}
 				}
-			}
+			System.out.println(String.format("Price of %s class for all travels from %s to %s in %s company has been changed to %.2f\n", seatClass.name(), origin, destination, company, newPrice));
 		}
+    }
 
-		if(!companyExist)
-			System.out.println("Travel company does not exist");
+	private TravelCompany findCompany(String companyName) {
+		for (TravelCompany tc : travelCompanies) {
+			if (tc.getName().equalsIgnoreCase(companyName))
+				return tc;
+		}
+		return null;
 	}
 	
 	public boolean loadInputFile(Scanner sc) {
