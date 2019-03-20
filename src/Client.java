@@ -19,6 +19,7 @@ public class Client {
     public void loadFromFile(Scanner sc) {
         System.out.println("Load from file.");
         String filePath;
+        Scanner file = null;
         sc.nextLine();
         boolean stop = false;
         while(!stop) {
@@ -27,9 +28,9 @@ public class Client {
                 if (filePath.equalsIgnoreCase("0"))
                     stop = true;
                 else {
-                    Scanner file = new Scanner(new File(filePath));
+                    file = new Scanner(new File(filePath));
                 }
-                //manager.loadFromFile(file);
+                manager.loadInputFile(filePath);
                 stop = true;
             } catch (FileNotFoundException e) {
                 System.out.println("File was not found.");

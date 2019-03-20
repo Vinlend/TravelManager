@@ -231,10 +231,8 @@ public abstract class SystemManager {
 		return null;
 	}
 	
-	public boolean loadInputFile(Scanner sc) {
-		System.out.println("INPUT FILE PATH");
-		String filepath = "/Users/coltonsomes/Desktop/EclipseProjects/TravelManager-2/TravelManager/SampleInput.txt";
-		//String filepath = sc.nextLine();
+	public boolean loadInputFile(String filepath) {
+
 		String content = "";
 	    try
 	    {
@@ -259,7 +257,7 @@ public abstract class SystemManager {
 	        }
 	        
 	        String[] second =  first[1].split("\\]\\]");
-	        
+
 	        System.out.println("___________________________________");
 	        
 	        
@@ -327,15 +325,14 @@ public abstract class SystemManager {
 	        		if(fourth[flightCount+8].contains(":")){
 	        			String[] flightSections = fourth[flightCount+8].split("\\:|\\,");
 	        			
-	        			while(sectionCount != flightSections.length ) {
+	        			while(sectionCount < flightSections.length ) {
 	        				System.out.println("SEATCLASS: " + flightSections[sectionCount]); 
 	        				System.out.println("PRICE: " + flightSections[sectionCount+1]); 
 	        				System.out.println("LAYOUT: " + flightSections[sectionCount+2]); 
 	        				System.out.println("ROWS: " + flightSections[sectionCount+3]); 
 	        				System.out.println();
-	        				sectionCount += 4; 
 	        				
-	        				String seatClassString = flightSections[sectionCount+2];
+	        				String seatClassString = flightSections[sectionCount];
 	        				SeatClass seatClassActual;
 	        				if(seatClassString.toLowerCase().equals("e")) {
 	        					seatClassActual = SeatClass.ECONOMY;
@@ -362,8 +359,9 @@ public abstract class SystemManager {
 	        				} else {
 	        					throw new RuntimeException("Section Layout " + layoutString + " invalid, so section has not been created");
 	        				}
-	        				
-	        				
+
+
+							sectionCount += 4;
 	        			}
 	        		}
         		}	        		
