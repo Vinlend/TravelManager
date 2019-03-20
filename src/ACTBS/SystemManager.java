@@ -1,10 +1,8 @@
 package ACTBS;
 
 
-<<<<<<< HEAD
+
 import java.io.BufferedWriter;
-=======
->>>>>>> 7148a7b7c86bcfec9bc7366b58b03524f60cba6a
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
