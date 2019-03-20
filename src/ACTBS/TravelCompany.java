@@ -132,10 +132,12 @@ public class TravelCompany {
 	
 	@Override 
 	public String toString() {
-		String result = "";
-		for(TravelType f : this.travelList) {
-			result += String.format("%10s %s", this.name, f.toString());
+		String result = this.getName() + "[";
+		for(TravelType travelType : this.travelList) {
+			
+			result += travelType.toString();
 		}
+		result.concat("], ");
 		return result;
 	}
 }

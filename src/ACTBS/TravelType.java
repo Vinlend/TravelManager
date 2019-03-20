@@ -89,6 +89,14 @@ public abstract class TravelType {
 
 	
 	
+	@Override
+	public String toString() {
+		String result = this.getID() + "[" + this.ID + "|" + this.year + ", " + this.day;
+		
+		result.concat(", ");
+		return "";
+	}
+	
 	
 	
 }

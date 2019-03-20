@@ -1,6 +1,8 @@
 package ACTBS;
 
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -389,7 +391,25 @@ public abstract class SystemManager {
 		
 	}
 	
-	public boolean saveToFile() {
+	public boolean saveToFile(FileWriter writer) throws IOException{
+		String content = "[";
+		int travelLocationNum = 0;
+		for(TravelLocation travelLocation : travelLocations) {
+			if(travelLocationNum == travelCompanies.size()) {
+				content.concat(travelLocation.getName() + "]");
+			} else {
+				content.concat(travelLocation.getName() + ",");
+			}
+			travelLocationNum++;
+		}
+		
+		content.concat("{");
+		for(TravelCompany travelCompany: travelCompanies) {
+			content.concat(travelCompany.toString()); 
+		}
+		content.concat("}");
+		writer.write(content);
+		
 		return false; 
 	}
 	
