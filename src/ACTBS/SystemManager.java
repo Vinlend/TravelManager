@@ -1,5 +1,8 @@
 package ACTBS;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -9,6 +12,29 @@ public abstract class SystemManager {
 
 	public ArrayList<TravelLocation> travelLocations = new ArrayList<TravelLocation>(); 
 	public ArrayList<TravelCompany> travelCompanies = new ArrayList<TravelCompany>(); 
+	
+	private int findTravelCompanyIndex(String travelCompany) {
+		int index = -1; 
+		for(TravelCompany travel: travelCompanies) {
+			if(travel.getName().equals(travelCompany)) {
+				index = travelCompanies.indexOf(travel);  
+			}
+		}
+		
+		return index;
+	}
+	
+	private int getTravelTypeIndex(String ID, List<TravelType> list) {
+		int index = -1;
+		for(TravelType travel: list) {
+			if(travel.getID().equals(ID)) {
+				index = list.indexOf(travel); 
+			}
+		}
+		
+		return index;
+	}
+	
 	
     public void createTravelLocation(String name) {
     	try {
@@ -178,6 +204,170 @@ public abstract class SystemManager {
 		for(TravelType t: travelTypes) {
 			changeSpotPriceBySection(t, seatClass, newPrice); 
 		}
+	}
+	
+	public boolean loadInputFile(Scanner sc) {
+		System.out.println("INPUT FILE PATH");
+		String filepath = "/Users/coltonsomes/Desktop/EclipseProjects/TravelManager-2/TravelManager/SampleInput.txt";
+		//String filepath = sc.nextLine();
+		String content = "";
+	    try
+	    {
+	    	TransportationType type = null;
+	    	if(this instanceof SystemManagerCruises) {
+	    		type = TransportationType.SHIP;
+	    	}else if(this instanceof SystemManagerAirports) {
+	    		type = TransportationType.FLIGHT;
+	    	}
+	    	
+	    	
+	        content = new String ( Files.readAllBytes( Paths.get(filepath) ) );
+	        String[] first =  content.split("\\{|\\}"); 
+	        System.out.println("ALL AIRPORT NAMES");
+	        System.out.println("___________________________________");
+	        for(String s: first[0].split("\\[|\\,\\s|\\]")) {
+	        	if(s.matches(".*\\w.*")) {
+	        		createTravelLocation(s);
+	        		System.out.println(s);
+	        	}
+	        	
+	        }
+	        
+	        String[] second =  first[1].split("\\]\\]");
+	        
+	        System.out.println("___________________________________");
+	        
+	        
+	        //SECOND is List of Airlines w/ their flights
+	        //THIRD is a list of Flights, the first of each will include the airline name
+	        String[] third;
+	        String airlineName = "";
+	        //FOR EACH AIRLINE
+	        System.out.println("AIRLINES AND FLIGHTS: ");
+	        for(String g: second) {
+	        	boolean isFirstFlight = true; 
+	        	System.out.println(); 
+	        	//String[] third = g.split("\\[|\\,|\\s+|\\||\\]|\\:"); 
+	        	third = g.split("\\]\\,"); 
+	        	//FOR EACH FLIGHT IN AIRLINE
+	        	int flightCount = 0;
+	        	for(String h: third) {
+	        		flightCount = 0;
+	        		h = h.trim(); 
+	        		
+	        		System.out.println("___________________________________");
+	        		//FOURTH will be an array for each Flight listed in Airline
+	        		String[] fourth = h.trim().split("\\]\\,\\s|\\[|\\,\\s|\\s+|\\||\\]|\\]\\,");
+	        		//If first flight for airline, it will contain the airline name
+	        		
+	        		if(isFirstFlight) {
+	        			isFirstFlight = false;
+	        			flightCount++; 
+	        		
+	        		
+		        		if(!fourth[0].matches(".*\\w.*")) {
+		        			airlineName = fourth[1];
+		        			flightCount++;
+		        		} else {
+		       				airlineName = fourth[0]; 
+		       			}
+		        		
+		        		createTravelCompany(airlineName); 
+		        		
+		        		System.out.println("AIRLINE NAME: " + airlineName);
+		        		System.out.println("___________________________________");
+		        		System.out.println("FLIGHTS ");
+		       			System.out.println("___________________________________");
+	        		}
+	        		//ADD TRAVEL TYPE TO COMPANY LIST
+	        		travelCompanies.get(findTravelCompanyIndex(airlineName)).addTravelType(fourth[flightCount+6], fourth[flightCount+7], Integer.parseInt(fourth[flightCount+1]), Integer.parseInt(fourth[flightCount+2]), Integer.parseInt(fourth[flightCount+3]), fourth[flightCount], type);
+	       			
+	        		
+	        		
+	        		System.out.println("FID: " + fourth[flightCount]); 
+		       		System.out.println("YEAR: " + fourth[flightCount+1]);
+		       		System.out.println("MONTH: " + fourth[flightCount+2]);
+		       		System.out.println("DAY: " + fourth[flightCount+3]);
+		       		System.out.println("HOUR: " + fourth[flightCount+4]);
+		       		System.out.println("MIN: " + fourth[flightCount+5]);
+		       		System.out.println("ORIG: " + fourth[flightCount+6]);
+		       		System.out.println("DEST: " + fourth[flightCount+7]);
+	        		
+	        		System.out.println("▼▼▼▼FLIGHT SECTIONS▼▼▼▼");
+	        		
+	        		List<TravelType> travelTypes = travelCompanies.get(findTravelCompanyIndex(airlineName)).getTravelTypes();
+	        		TravelType TravelToAddSectionsTo = travelTypes.get(getTravelTypeIndex(fourth[flightCount], travelTypes)); 
+	        		
+	        		int sectionCount = 0; 
+	        		if(fourth[flightCount+8].contains(":")){
+	        			String[] flightSections = fourth[flightCount+8].split("\\:|\\,");
+	        			
+	        			while(sectionCount != flightSections.length ) {
+	        				System.out.println("SEATCLASS: " + flightSections[sectionCount]); 
+	        				System.out.println("PRICE: " + flightSections[sectionCount+1]); 
+	        				System.out.println("LAYOUT: " + flightSections[sectionCount+2]); 
+	        				System.out.println("ROWS: " + flightSections[sectionCount+3]); 
+	        				System.out.println();
+	        				sectionCount += 4; 
+	        				
+	        				String seatClassString = flightSections[sectionCount+2];
+	        				SeatClass seatClassActual;
+	        				if(seatClassString.toLowerCase().equals("e")) {
+	        					seatClassActual = SeatClass.ECONOMY;
+	        				}else if(seatClassString.toLowerCase().equals("b")) {
+	        					seatClassActual = SeatClass.BUSINESS;
+	        				}else if(seatClassString.toLowerCase().equals("f")){
+	        					seatClassActual = SeatClass.FIRST;
+	        				} else {
+	        					throw new RuntimeException("Seat Class " + seatClassString + " invalid, so section has not been created");
+	        				}
+	        				
+	        				
+	        				String layoutString = flightSections[sectionCount+2];
+	        				SeatLayout layoutActual;
+	        				if(layoutString.toLowerCase().equals("s")){
+	        					Section newSection = new Section(Integer.parseInt(flightSections[sectionCount+3]), SeatLayout.SMALL, seatClassActual, Integer.parseInt(flightSections[sectionCount+1]));
+	        					TravelToAddSectionsTo.addSection(newSection);
+	        				} else if(layoutString.toLowerCase().equals("m")) {
+	        					Section newSection = new Section(Integer.parseInt(flightSections[sectionCount+3]), SeatLayout.MEDIUM, seatClassActual, Integer.parseInt(flightSections[sectionCount+1]));
+	        					TravelToAddSectionsTo.addSection(newSection);
+	        				} else if(layoutString.toLowerCase().equals("w")) {
+	        					Section newSection = new Section(Integer.parseInt(flightSections[sectionCount+3]), SeatLayout.WIDE, seatClassActual, Integer.parseInt(flightSections[sectionCount+1]));
+	        					TravelToAddSectionsTo.addSection(newSection);
+	        				} else {
+	        					throw new RuntimeException("Section Layout " + layoutString + " invalid, so section has not been created");
+	        				}
+	        				
+	        				
+	        			}
+	        		}
+        		}	        		
+	        	
+	        }
+	        
+	        return true;
+	    }
+	    catch (IOException e)
+	    {
+	    	System.out.println("FILE " + filepath + " NOT FOUND");
+	        e.printStackTrace();
+	        return false; 
+	    }
+	    catch(IndexOutOfBoundsException e) {
+	    	System.out.println("FILE NOT FORMATTED PROPERLY");
+	    	return false; 
+	    }
+		catch(RuntimeException e) {
+			System.out.println(e.getMessage());
+			
+		}
+		
+	    return true;
+		
+	}
+	
+	public boolean saveToFile() {
+		return false; 
 	}
 	
     public void displaySystemDetails() {

@@ -18,6 +18,11 @@ public class TravelCompany {
 		return this.name;
 	}
 	
+	public List<TravelType> getTravelTypes() {
+		return this.travelList; 
+		
+	}
+	
 	public ArrayList<TravelType> findTravelTypesByOriginDestination(String origin, String destination) {
 		ArrayList<TravelType> travelTypes = new ArrayList<TravelType>();
 		for(TravelType i: this.travelList) {
