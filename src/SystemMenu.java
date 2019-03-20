@@ -121,16 +121,16 @@ public class SystemMenu {
                     connection.loadFromFile(sc);
                     break;
                 case 2:
-                    connection.changePriceTrip(sc);
+                    connection.changePriceSpecificTrip(sc);
                     break;
                 case 3:
-                    connection.findTrips(sc);
+                    connection.findAvailableTrips(sc);
                     break;
                 case 4:
-                     connection.changePriceTravel(sc);
+                     connection.changePriceOrigDestTrip(sc);
                     break;
                 case 5:
-                     connection.bookSpot(sc);
+                     connection.bookSpotSpecific(sc);
                     break;
                 case 6:
                     connection.bookSpotPreference(sc);

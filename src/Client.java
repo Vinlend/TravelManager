@@ -41,7 +41,7 @@ public class Client {
         }
     }
 
-    public void changePriceTrip(Scanner sc) {
+    public void changePriceSpecificTrip(Scanner sc) {
         System.out.println("Change price.");
         String company;
         SeatClass seatClass;
@@ -68,7 +68,7 @@ public class Client {
         }
     }
 
-    public void findTrips(Scanner sc) {
+    public void findAvailableTrips(Scanner sc) {
         if(manager instanceof SystemManagerCruises)
             System.out.println("Find available cabins.");
         else if(manager instanceof SystemManagerAirports)
@@ -102,7 +102,7 @@ public class Client {
         }
     }
 
-    public void changePriceTravel(Scanner sc) {
+    public void changePriceOrigDestTrip(Scanner sc) {
         System.out.println("Change price(origin, destination).");
         String company;
         String origin;
@@ -131,7 +131,7 @@ public class Client {
         }
     }
 
-    public void bookSpot(Scanner sc) {
+    public void bookSpotSpecific(Scanner sc) {
         if(manager instanceof SystemManagerCruises)
             System.out.println("Book a cabin.");
         else if(manager instanceof SystemManagerAirports)
