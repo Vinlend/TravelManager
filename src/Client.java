@@ -1,7 +1,4 @@
-import ACTBS.SeatClass;
-import ACTBS.SystemManager;
-import ACTBS.SystemManagerAirports;
-import ACTBS.SystemManagerCruises;
+import ACTBS.*;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -21,12 +18,12 @@ public class Client {
 
     public void loadFromFile(Scanner sc) {
         System.out.println("Load from file.");
+        String filePath;
         sc.nextLine();
         boolean stop = false;
         while(!stop) {
             try {
-                System.out.println("Enter the path to the file or type 0 to exit:");
-                String filePath = sc.nextLine();
+                filePath = getString(sc, "Enter the path to the file or type 0 to exit:");
                 if (filePath.equalsIgnoreCase("0"))
                     stop = true;
                 else {
@@ -54,10 +51,8 @@ public class Client {
         boolean stop = false;
         while(!stop) {
             try {
-                System.out.println("Enter name of the company(ex: DELTA):");
-                company = sc.nextLine();
-                System.out.println("Enter travel number(ex: DL546):");
-                travelID = sc.nextLine();
+                company = getString(sc, "Enter name of the company(ex: DELTA):");
+                travelID = getString(sc, "Enter travel number(ex: DL546):");
 
                 seatClass = getSeatClass(sc);
 
@@ -88,19 +83,14 @@ public class Client {
         boolean stop = false;
         while(!stop) {
             try {
-                System.out.println("Enter origin(ex: GEG):");
-                origin = sc.nextLine();
-                System.out.println("Enter destination(ex: GEG):");
-                destination = sc.nextLine();
+                origin = getString(sc, "Enter origin(ex: GEG):");
+                destination = getString(sc, "Enter destination(ex: GEG):");
 
                 seatClass = getSeatClass(sc);
 
-                System.out.println("Enter year(ex: 2019):");
-                year = sc.nextInt();
-                System.out.println("Enter month(ex: 10):");
-                month = sc.nextInt();
-                System.out.println("Enter day(ex: 25):");
-                day = sc.nextInt();
+                year = getInt(sc, "Enter year(ex: 2019):");
+                month = getInt(sc, "Enter month(ex: 10:");
+                day = getInt(sc, "Enter day(ex: 25)");
 
                 manager.findAvailableTravels(origin, destination, seatClass, year, month, day);
                 stop = true;
@@ -123,12 +113,9 @@ public class Client {
         boolean stop = false;
         while(!stop) {
             try {
-                System.out.println("Enter name of the company(ex: DELTA):");
-                company = sc.nextLine();
-                System.out.println("Enter origin(ex: LAX):");
-                origin = sc.nextLine();
-                System.out.println("Enter destination(ex: LAX):");
-                destination = sc.nextLine();
+                company = getString(sc, "Enter name of the company(ex: DELTA):");
+                origin = getString(sc, "Enter origin(ex: LAX):");
+                destination = getString(sc, "Enter destination(ex: LAX):");
 
                 seatClass = getSeatClass(sc);
 
@@ -145,56 +132,197 @@ public class Client {
     }
 
     public void bookSpot(Scanner sc) {
-        manager.bookSpot("","",SeatClass.ECONOMY, 10, 'A');
+        if(manager instanceof SystemManagerCruises)
+            System.out.println("Book a cabin.");
+        else if(manager instanceof SystemManagerAirports)
+            System.out.println("Book a seat");
+        String company;
+        SeatClass seatClass;
+        String travelID;
+        int row;
+        char col = ' ';
+        boolean correctLetter = false;
+        sc.nextLine();
+        boolean stop = false;
+        while(!stop) {
+            try {
+                company = getString(sc, "Enter name of the company(ex: DELTA):");
+                travelID = getString(sc, "Enter travel number(ex: DL546):");
+
+                seatClass = getSeatClass(sc);
+                sc.nextLine();
+
+                row = getInt(sc, "Enter row number(ex: 10):");
+                while(!correctLetter) {
+                    System.out.println("Enter seat letter(ex: B):");
+                    col = sc.next().charAt(0);
+                    if(Character.isAlphabetic(col))
+                        correctLetter = true;
+                    else
+                        System.out.println("Has to be a letter");
+                }
+
+                manager.bookSpot(company,travelID, seatClass, row, col);
+                stop = true;
+            } catch (InputMismatchException e) {
+                System.out.println("Incorrect input + " + e.getMessage());
+            } catch (RuntimeException e) {
+                System.out.println(e.getMessage());
+            }
+        }
     }
 
-    public void bookSpotPreference(Scanner sc) {}
+
+
+    public void bookSpotPreference(Scanner sc) {
+        if(manager instanceof SystemManagerCruises)
+            System.out.println("Book a cabin.");
+        else if(manager instanceof SystemManagerAirports)
+            System.out.println("Book a seat");
+        String company;
+        String travelID;
+        Position preference;
+        SeatClass seatClass;
+        sc.nextLine();
+        boolean stop = false;
+        while(!stop) {
+            try {
+                company = getString(sc, "Enter name of the company(ex: DELTA):");
+                travelID = getString(sc, "Enter travel number(ex: DL546):");
+
+                seatClass = getSeatClass(sc);
+                sc.nextLine();
+                preference = getPositionType(sc);
+                sc.nextLine();
+
+
+
+                manager.bookSpotPreference(company, travelID, seatClass, preference);
+                stop = true;
+            } catch (InputMismatchException e) {
+                System.out.println("Incorrect input + " + e.getMessage());
+            } catch (RuntimeException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+
+
 
     public void saveToFile(Scanner sc) {}
 
-    private SeatClass getSeatClass(Scanner sc) {
+    private String getString(Scanner sc, String s) {
+        String data;
+        System.out.println(s);
+        data = sc.nextLine();
+        return data;
+    }
 
+    private int getInt(Scanner sc, String s) {
+        boolean input = true;
+        int data = -1;
+        while(input) {
+            try {
+                System.out.println(s);
+                data = sc.nextInt();
+                input = false;
+            } catch (InputMismatchException e) {
+                System.out.println("Incorrect input.");
+                sc.nextLine();
+            }
+        }
+        return data;
+    }
+
+    private Position getPositionType(Scanner sc) {
+        boolean input = true;
+        Position preference = null;
+        int seatClassNum;
+        boolean preferenceCheck = false;
+        while(input) {
+            try {
+
+                System.out.println("Choose seat class:\n" +
+                        "1. Window\n" +
+                        "2. Aisle");
+
+                while (!preferenceCheck) {
+                    seatClassNum = sc.nextInt();
+                    if (seatClassNum == 1) {
+                        preference = Position.WINDOW;
+                        preferenceCheck = true;
+                    } else if (seatClassNum == 2) {
+                        preference = Position.AISLE;
+                        preferenceCheck = true;
+                    } else
+                        System.out.println("Incorrect number.\nEnter number:");
+
+                }
+                input = false;
+            } catch (InputMismatchException e) {
+                System.out.println("Incorrect input.");
+                sc.nextLine();
+            }
+        }
+        return preference;
+    }
+
+    private SeatClass getSeatClass(Scanner sc) {
+        boolean input = true;
+        SeatClass seatClass = null;
         int seatClassNum;
         boolean seatClassCheck = false;
-        SeatClass seatClass = null;
+        while(input) {
+            try {
 
-        System.out.println("Choose seat class:\n" +
-                "1. Business\n" +
-                "2. First\n" +
-                "3. Economy");
-        while(!seatClassCheck) {
-            seatClassNum = sc.nextInt();
-            if (seatClassNum == 1) {
-                seatClass = SeatClass.BUSINESS;
-                seatClassCheck = true;
-            }
-            else if(seatClassNum == 2) {
-                seatClass = SeatClass.FIRST;
-                seatClassCheck = true;
-            }
-            else if(seatClassNum == 3) {
-                seatClass = SeatClass.ECONOMY;
-                seatClassCheck = true;
-            }
-            else
-                System.out.println("Incorrect number.");
+                System.out.println("Choose seat class:\n" +
+                        "1. Business\n" +
+                        "2. First\n" +
+                        "3. Economy");
+                while (!seatClassCheck) {
+                    seatClassNum = sc.nextInt();
+                    if (seatClassNum == 1) {
+                        seatClass = SeatClass.BUSINESS;
+                        seatClassCheck = true;
+                    } else if (seatClassNum == 2) {
+                        seatClass = SeatClass.FIRST;
+                        seatClassCheck = true;
+                    } else if (seatClassNum == 3) {
+                        seatClass = SeatClass.ECONOMY;
+                        seatClassCheck = true;
+                    } else
+                        System.out.println("Incorrect number.\nEnter number:");
 
+                }
+                input = false;
+            } catch (InputMismatchException e) {
+                System.out.println("Incorrect input.");
+                sc.nextLine();
+            }
         }
-
         return seatClass;
     }
 
     private double getPrice(Scanner sc) {
         boolean priceCorrect = false;
         double price = -1;
-        System.out.println("Enter new price(ex: 200):");
-        while(!priceCorrect) {
-            price = sc.nextDouble();
-            if(price > 0 && price < 20000)
-                priceCorrect = true;
-            else
-                System.out.println("Price has to be in range(1, 20,000)");
-
+        boolean input = true;
+        while(input) {
+            try {
+                System.out.println("Enter new price(ex: 200):");
+                while (!priceCorrect) {
+                    price = sc.nextDouble();
+                    if (price > 0 && price < 20000)
+                        priceCorrect = true;
+                    else
+                        System.out.println("Price has to be in range(1, 20000)");
+                }
+                input = false;
+            }
+            catch (InputMismatchException e) {
+                System.out.println("Incorrect input.");
+                sc.nextLine();
+            }
         }
         return price;
     }
