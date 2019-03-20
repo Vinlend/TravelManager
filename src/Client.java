@@ -1,7 +1,6 @@
 import ACTBS.*;
 
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.*;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -19,7 +18,6 @@ public class Client {
     public void loadFromFile(Scanner sc) {
         System.out.println("Load from file.");
         String filePath;
-        Scanner file = null;
         sc.nextLine();
         boolean stop = false;
         while(!stop) {
@@ -28,12 +26,11 @@ public class Client {
                 if (filePath.equalsIgnoreCase("0"))
                     stop = true;
                 else {
-                    file = new Scanner(new File(filePath));
+                    if(!new File(filePath).exists())
+                        System.out.println("File does not exist");
                 }
                 manager.loadInputFile(filePath);
                 stop = true;
-            } catch (FileNotFoundException e) {
-                System.out.println("File was not found.");
             } catch (InputMismatchException e) {
                 System.out.println("Path has to be a string");
             } catch (RuntimeException e) {
@@ -208,9 +205,35 @@ public class Client {
         }
     }
 
+    public void saveToFile(Scanner sc) {
+        System.out.println("Save to file.");
+        String filePath;
+        FileWriter writer = null;
+        sc.nextLine();
+        boolean stop = false;
+        while(!stop) {
+            try {
+                filePath = getString(sc, "Enter the path to the file or type 0 to exit:");
+                if (filePath.equalsIgnoreCase("0"))
+                    stop = true;
+                else {
+                    writer = new FileWriter(filePath);
+                }
+                manager.saveToFile(writer);
+                writer.close();
+                stop = true;
+            } catch (FileNotFoundException e) {
+                System.out.println("File was not found.");
+            } catch (InputMismatchException e) {
+                System.out.println("Path has to be a string");
+            }catch (RuntimeException e) {
+                System.out.println(e.getMessage());
+            } catch (IOException e) {
+                System.out.println("Error: " + e.getMessage());
+            }
+        }
+    }
 
-
-    public void saveToFile(Scanner sc) {}
 
     private String getString(Scanner sc, String s) {
         String data;
