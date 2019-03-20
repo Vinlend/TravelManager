@@ -87,7 +87,7 @@ public abstract class SystemManager {
     	
     }
     
-    public void createTravelType(String aname, String orig, String dest, int year, int month, int day, String ID) {
+    public void createTravelType(String aname, String orig, String dest, int year, int month, int hour, int min, int day, String ID) {
 
     		
 
@@ -306,7 +306,7 @@ public abstract class SystemManager {
 		       			System.out.println("___________________________________");
 	        		}
 	        		//ADD TRAVEL TYPE TO COMPANY LIST
-	        		travelCompanies.get(findTravelCompanyIndex(airlineName)).addTravelType(fourth[flightCount+6], fourth[flightCount+7], Integer.parseInt(fourth[flightCount+1]), Integer.parseInt(fourth[flightCount+2]), Integer.parseInt(fourth[flightCount+3]), fourth[flightCount], type);
+	        		travelCompanies.get(findTravelCompanyIndex(airlineName)).addTravelType(fourth[flightCount+6], fourth[flightCount+7], Integer.parseInt(fourth[flightCount+1]), Integer.parseInt(fourth[flightCount+2]), Integer.parseInt(fourth[flightCount+3]), Integer.parseInt(fourth[flightCount+4]), Integer.parseInt(fourth[flightCount+5]), fourth[flightCount], type);
 	       			
 	        		
 	        		
@@ -397,19 +397,26 @@ public abstract class SystemManager {
 		String content = "[";
 		int travelLocationNum = 0;
 		for(TravelLocation travelLocation : travelLocations) {
-			if(travelLocationNum == travelCompanies.size()) {
-				content.concat(travelLocation.getName() + "]");
+			if(travelLocationNum == travelLocations.size()-1) {
+				content = content.concat(travelLocation.getName() + "]");
 			} else {
-				content.concat(travelLocation.getName() + ",");
+				content = content.concat(travelLocation.getName() + ", ");
 			}
 			travelLocationNum++;
 		}
 		
-		content.concat("{");
+		content = content.concat("{");
+		int travelCompanyNum = 0;
 		for(TravelCompany travelCompany: travelCompanies) {
-			content.concat(travelCompany.toString()); 
+			
+			if(travelCompanyNum != this.travelCompanies.size()-1) {
+				content = content.concat(travelCompany.toString()  + ", ");
+	    	} else {
+	    		content = content.concat(travelCompany.toString());
+	    	}
+			travelCompanyNum++;
 		}
-		content.concat("}");
+		content = content.concat("}");
 		writer.write(content);
 		
 
