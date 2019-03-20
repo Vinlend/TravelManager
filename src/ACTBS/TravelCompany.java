@@ -69,12 +69,12 @@ public class TravelCompany {
 		return false; 
 	}
 
-	public boolean addTravelType(String origin, String destination, int year, int month, int day, String ID, TransportationType type) {
+	public boolean addTravelType(String origin, String destination, int year, int month, int day, int hour, int min, String ID, TransportationType type) {
 		
 		TravelType t;
 		try {
 			if(type.equals(TransportationType.FLIGHT)) {
-				t = new Flight(origin, destination, year, day, month, ID);
+				t = new Flight(origin, destination, year, day, month, hour, min, ID);
 			} else if(type.equals(TransportationType.SHIP)) {
 				t = new Ship(origin, destination, year, day, month, ID);
 			} else {
@@ -128,16 +128,23 @@ public class TravelCompany {
 		return false;
 	}
 
-	
-	
-	@Override 
+	@Override
 	public String toString() {
 		String result = this.getName() + "[";
+		int travelNum = 0;
 		for(TravelType travelType : this.travelList) {
-			
-			result += travelType.toString();
+			if(travelNum != this.travelList.size()-1) {
+				result = result.concat(travelType.toString() + ", ");
+	    	} else {
+	    		result = result.concat(travelType.toString());
+	    	}
+			travelNum++;
 		}
-		result.concat("], ");
+		result = result.concat("]");
 		return result;
 	}
+
+	
+	
+	
 }

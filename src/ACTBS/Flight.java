@@ -8,8 +8,8 @@ public class Flight extends TravelType{
 	private int year, day, month;
 	private ArrayList<Section> sections = new ArrayList<>(); 
 	
-	public Flight(String origin, String destination, int year, int day, int month, String fID) {
-		super(origin, destination, year, day, month, fID); 
+	public Flight(String origin, String destination, int year, int day, int month, int hour, int min, String fID) {
+		super(origin, destination, year, day, month, hour, min, fID); 
 		
 		if(destination .equals(origin)) {
 			throw new IllegalArgumentException("Flight " + fID + " not created: Origin and Destination are the same"); 
@@ -26,13 +26,7 @@ public class Flight extends TravelType{
 	
 
 	
-	@Override 
-	public String toString() {
-		String result = fID + " " + this.origin + " " + this.destination + " " + this.getDate(); 
-		for(Section s : this.sections)
-			result += "\n" + s.toString();
-		return result;
-	}
+	
 	
 	
 	

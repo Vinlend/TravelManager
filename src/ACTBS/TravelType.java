@@ -5,16 +5,18 @@ import java.util.*;
 public abstract class TravelType {
 	
 	private String origin, destination, ID;
-	private int year, day, month;
+	private int year, day, month, hour, min;
 	private ArrayList<Section> sections = new ArrayList<>(); 
 	
-	public TravelType(String origin, String destination, int year, int day, int month, String ID) {
+	public TravelType(String origin, String destination, int year, int day, int month, int hour, int min, String ID) {
 		this.ID = ID;
 		this.origin = origin;
 		this.destination = destination;
 		this.year = year;
 		this.day = day;
 		this.month = month;
+		this.hour = hour;
+		this.min = min; 
 	}
 	
 	public String getOrigin() {
@@ -87,15 +89,29 @@ public abstract class TravelType {
 
     }
 
-	
-	
 	@Override
 	public String toString() {
-		String result = this.getID() + "[" + this.ID + "|" + this.year + ", " + this.day;
+		String result = this.ID + "|" + this.year + ", " + this.month + ", " 
+				+ this.day + ", " + this.hour + ", " + this.min + "|" + this.origin  + "|" + this.destination + "[";
 		
-		result.concat(", ");
-		return "";
+		int sectionNum = 0;
+		for(Section section: this.sections) {
+			
+	    	if(sectionNum != this.sections.size()-1) {
+	    		result = result.concat(section.toString() + ",");
+	    	} else {
+	    		result = result.concat(section.toString());
+	    	}
+			sectionNum++; 
+		}
+		
+		result = result.concat("]");
+		
+		return result;
 	}
+
+	
+	
 	
 	
 	
