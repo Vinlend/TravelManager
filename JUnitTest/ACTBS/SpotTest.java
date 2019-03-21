@@ -39,14 +39,4 @@ class SpotTest {
         assertEquals(false, bookSpot.book());
     }
 
-    @Test
-    void getPosition() {
-        Section testSectionMedium = new Section(2, SeatLayout.MEDIUM, SeatClass.BUSINESS, 100);
-        Section testSectionWide = new Section(2, SeatLayout.WIDE, SeatClass.BUSINESS, 100);
-        Section testSectionSmall = new Section(2, SeatLayout.SMALL, SeatClass.BUSINESS, 100);
-
-       /* testSectionMedium.printPositions();
-        testSectionWide.printPositions();
-        testSectionSmall.printPositions();*/
-    }
 }

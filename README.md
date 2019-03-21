@@ -345,4 +345,7 @@ Output.txt
 
 4: The one way prices for an airline are not required to all be the same. You are able, however, to change the Section Price on all Travel Types for a specified Travel Company.
 
+5: We included two JUnit tests, one for the Section's and one for the Spot's. They are not fully comprehensive bu they do test some things. We wanted to add more tests but did not have enough time.
+
+6: We implemented 7 custom exceptions for the program. These can be found under ACTBS.SystemExceptions. Again, wanted to create more but ran out of time. 
   
