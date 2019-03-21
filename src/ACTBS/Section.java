@@ -206,23 +206,6 @@ public class Section {
         return section;
     }
 
-    private void printBooked() {
-        for (int row = 0; row < spots.length; row++) {
-            for (int col = 0; col < spots[0].length; col++)
-                System.out.print(spots[row][col].isBooked() + " ");
-            System.out.println("\n");
-        }
-
-    }
-
-    private void printPositions() {
-        for (int row = 0; row < spots.length; row++) {
-            for (int col = 0; col < spots[0].length; col++)
-                System.out.print(spots[row][col].getPosition() + " ");
-            System.out.println("\n");
-        }
-    }
-
     String getDetailed() {
 
         String result = String.format("%-10s\n", this.seatClass.name() +":");
