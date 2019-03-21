@@ -101,7 +101,6 @@ public class TravelCompany {
 		for(TravelType t : this.travelList) {
 			if(t.getID().equals(ID)) {
 				try {
-					
 
 					//IF flight is not unique, realprice will be set to already established price
 					boolean flightUnique = true;
@@ -113,11 +112,12 @@ public class TravelCompany {
 							realPrice = sections.get(sections.indexOf(seatClass)).getPrice();
 						}
 					}
+					
 					if(!flightUnique) {
 						System.out.println("Origin/Destination combination not unique, so the price provided was overwritten by previously established price");
 					}
 					
-					t.addSection(new Section(rows, seatLayout, seatClass, price));
+					t.addSection(new Section(rows, seatLayout, seatClass, realPrice));
 					return true;
 				}
 				catch(RuntimeException e) {

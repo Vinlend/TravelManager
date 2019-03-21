@@ -19,6 +19,20 @@ public abstract class SystemManager {
 	public ArrayList<TravelLocation> travelLocations = new ArrayList<>();
 	public ArrayList<TravelCompany> travelCompanies = new ArrayList<>();
 	
+	protected boolean travelLocationCheck(String orig, String dest) {
+		 boolean travelLocationCheck = false;
+	     for(TravelLocation travelLocation : travelLocations) {
+	     	if(travelLocation.getName().toUpperCase().equals(orig)) {
+	     		if(travelLocation.getName().toUpperCase().equals(dest)) {
+	     			travelLocationCheck = true; 
+	     		}
+	     	}
+	     }
+	     
+	     return travelLocationCheck;
+	 }
+	
+	
 	private int findTravelCompanyIndex(String travelCompany) {
 		int index = -1; 
 		for(TravelCompany travel: travelCompanies) {
@@ -249,19 +263,15 @@ public abstract class SystemManager {
 	    	
 	        content = new String ( Files.readAllBytes( Paths.get(filepath) ) );
 	        String[] first =  content.split("\\{|\\}"); 
-	        System.out.println("ALL AIRPORT NAMES");
-	        System.out.println("___________________________________");
 	        for(String s: first[0].split("\\[|\\,\\s|\\]")) {
 	        	if(s.matches(".*\\w.*")) {
 	        		createTravelLocation(s);
-	        		System.out.println(s);
 	        	}
 	        	
 	        }
 	        
 	        String[] second =  first[1].split("\\]\\]");
 
-	        System.out.println("___________________________________");
 	        
 	        
 	        //SECOND is List of Airlines w/ their flights
@@ -269,10 +279,8 @@ public abstract class SystemManager {
 	        String[] third;
 	        String airlineName = "";
 	        //FOR EACH AIRLINE
-	        System.out.println("AIRLINES AND FLIGHTS: ");
 	        for(String g: second) {
 	        	boolean isFirstFlight = true; 
-	        	System.out.println(); 
 	        	//String[] third = g.split("\\[|\\,|\\s+|\\||\\]|\\:"); 
 	        	third = g.split("\\]\\,"); 
 	        	//FOR EACH FLIGHT IN AIRLINE
@@ -281,7 +289,6 @@ public abstract class SystemManager {
 	        		flightCount = 0;
 	        		h = h.trim(); 
 	        		
-	        		System.out.println("___________________________________");
 	        		//FOURTH will be an array for each Flight listed in Airline
 	        		String[] fourth = h.trim().split("\\]\\,\\s|\\[|\\,\\s|\\s+|\\||\\]|\\]\\,");
 	        		//If first flight for airline, it will contain the airline name
@@ -300,26 +307,13 @@ public abstract class SystemManager {
 		        		
 		        		createTravelCompany(airlineName); 
 		        		
-		        		System.out.println("AIRLINE NAME: " + airlineName);
-		        		System.out.println("___________________________________");
-		        		System.out.println("FLIGHTS ");
-		       			System.out.println("___________________________________");
 	        		}
 	        		//ADD TRAVEL TYPE TO COMPANY LIST
 	        		travelCompanies.get(findTravelCompanyIndex(airlineName)).addTravelType(fourth[flightCount+6], fourth[flightCount+7], Integer.parseInt(fourth[flightCount+1]), Integer.parseInt(fourth[flightCount+2]), Integer.parseInt(fourth[flightCount+3]), Integer.parseInt(fourth[flightCount+4]), Integer.parseInt(fourth[flightCount+5]), fourth[flightCount], type);
 	       			
 	        		
 	        		
-	        		System.out.println("FID: " + fourth[flightCount]); 
-		       		System.out.println("YEAR: " + fourth[flightCount+1]);
-		       		System.out.println("MONTH: " + fourth[flightCount+2]);
-		       		System.out.println("DAY: " + fourth[flightCount+3]);
-		       		System.out.println("HOUR: " + fourth[flightCount+4]);
-		       		System.out.println("MIN: " + fourth[flightCount+5]);
-		       		System.out.println("ORIG: " + fourth[flightCount+6]);
-		       		System.out.println("DEST: " + fourth[flightCount+7]);
 	        		
-	        		System.out.println("▼▼▼▼FLIGHT SECTIONS▼▼▼▼");
 	        		
 	        		List<TravelType> travelTypes = travelCompanies.get(findTravelCompanyIndex(airlineName)).getTravelTypes();
 	        		TravelType TravelToAddSectionsTo = travelTypes.get(getTravelTypeIndex(fourth[flightCount], travelTypes)); 
@@ -329,11 +323,7 @@ public abstract class SystemManager {
 	        			String[] flightSections = fourth[flightCount+8].split("\\:|\\,");
 	        			
 	        			while(sectionCount < flightSections.length ) {
-	        				System.out.println("SEATCLASS: " + flightSections[sectionCount]); 
-	        				System.out.println("PRICE: " + flightSections[sectionCount+1]); 
-	        				System.out.println("LAYOUT: " + flightSections[sectionCount+2]); 
-	        				System.out.println("ROWS: " + flightSections[sectionCount+3]); 
-	        				System.out.println();
+	        			
 	        				
 	        				String seatClassString = flightSections[sectionCount];
 	        				SeatClass seatClassActual;
