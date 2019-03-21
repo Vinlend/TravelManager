@@ -9,6 +9,32 @@ public abstract class TravelType {
 	private ArrayList<Section> sections = new ArrayList<>(); 
 	
 	public TravelType(String origin, String destination, int year, int day, int month, int hour, int min, String ID) {
+		
+		if(ID.isEmpty() || ID == null)
+			throw new IllegalArgumentException(); 
+		
+		
+		if(origin.isEmpty() || origin == null) 
+			throw new IllegalArgumentException();
+		
+		if(destination.isEmpty() || destination == null) 
+			throw new IllegalArgumentException();
+		
+		if(year < 2019) 
+			throw new IllegalArgumentException();
+		
+		if(day < 1) 
+			throw new IllegalArgumentException();
+		
+		if(month < 1) 
+			throw new IllegalArgumentException();
+		
+		if(hour < 0) 
+			throw new IllegalArgumentException();
+		
+		if(min < 0) 
+			throw new IllegalArgumentException();
+			
 		this.ID = ID;
 		this.origin = origin;
 		this.destination = destination;

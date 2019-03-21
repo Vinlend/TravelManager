@@ -112,6 +112,7 @@ public abstract class SystemManager {
     		if( (month > 12 || day > 31) || (month < 0 || day < 0)) {
     			throw new IllegalArgumentException("TravelType " + ID + " not created: Invalid Date");
     		}
+    		
 
 
     }
@@ -309,6 +310,22 @@ public abstract class SystemManager {
 		        		
 	        		}
 	        		//ADD TRAVEL TYPE TO COMPANY LIST
+	        		boolean originFlag = false;
+	        		boolean destinationFlag = false; 
+	        		for(TravelLocation travelLocation: travelLocations) {
+	        			if(travelLocation.getName().equals(fourth[flightCount+6])) {
+	        				originFlag = true;
+	        			}
+	        			
+	        			if(travelLocation.getName().equals(fourth[flightCount+7])) {
+	        				destinationFlag = true;
+	        			}
+	        		}
+	        		
+	        		if(originFlag == false || originFlag == false) {
+	        			throw new IllegalArgumentException(); 
+	        		}
+	        		
 	        		travelCompanies.get(findTravelCompanyIndex(airlineName)).addTravelType(fourth[flightCount+6], fourth[flightCount+7], Integer.parseInt(fourth[flightCount+1]), Integer.parseInt(fourth[flightCount+2]), Integer.parseInt(fourth[flightCount+3]), Integer.parseInt(fourth[flightCount+4]), Integer.parseInt(fourth[flightCount+5]), fourth[flightCount], type);
 	       			
 	        		
@@ -410,7 +427,7 @@ public abstract class SystemManager {
 		writer.write(content);
 		
 
-		return false; 
+		return true; 
 	}
 	
     public void displaySystemDetails() {
