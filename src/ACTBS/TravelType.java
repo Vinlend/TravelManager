@@ -79,7 +79,7 @@ public abstract class TravelType {
 		return this.ID; 
 	}
 	
-	//SHould we call this Book or BookSeat??
+	
 	public boolean book(SeatClass seatClass, int row, int col) {
 		boolean booked = false;
 		for(Section i: sections) {
