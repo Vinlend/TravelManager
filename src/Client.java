@@ -5,7 +5,7 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Client {
-    SystemManager manager;
+    private SystemManager manager;
 
     public Client(SystemManager manager) {
         this.manager = manager;
