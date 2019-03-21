@@ -19,12 +19,16 @@ public abstract class TravelType {
 		this.min = min; 
 	}
 	
-	public String getOrigin() {
+	String getOrigin() {
 		return this.origin;
 	}
 	
-	public String getDate() {
+	String getDate() {
 		return month + "/" + day + "/" + year;
+	}
+
+	String getTime() {
+		return this.hour+":"+this.min;
 	}
 	
 	public int getDay() {

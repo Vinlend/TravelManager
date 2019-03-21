@@ -9,21 +9,21 @@ public class TravelCompany {
 	
 	public TravelCompany(String name) {
 		if(name.length() > 6 || name.length() < 1) {
-			throw new AirlineNameLengthException("TravelCompany name is greater than 5 char OR les than 1 char");
+			throw new AirlineNameLengthException("ERROR: company has not been created: Company name has to be in range(1,5)\n");
 		}
 		this.name = name;
 	}
 	
-	public String getName() {
+	String getName() {
 		return this.name;
 	}
 	
-	public List<TravelType> getTravelTypes() {
+	List<TravelType> getTravelTypes() {
 		return this.travelList; 
 		
 	}
 	
-	public ArrayList<TravelType> findTravelTypesByOriginDestination(String origin, String destination) {
+	ArrayList<TravelType> findTravelTypesByOriginDestination(String origin, String destination) {
 		ArrayList<TravelType> travelTypes = new ArrayList<TravelType>();
 		for(TravelType i: this.travelList) {
 			if(origin.equals(i.getOrigin()) && destination.equals(i.getDestination())) {
@@ -33,7 +33,7 @@ public class TravelCompany {
 		return travelTypes;
 	}
 	
-	public ArrayList<TravelType> findTravelTypes(String origin, String destination, int year, int month, int day) {
+	ArrayList<TravelType> findTravelTypes(String origin, String destination, int year, int month, int day) {
 		ArrayList<TravelType> travelTypes = new ArrayList<TravelType>();
 		for(TravelType i: this.travelList) {
 			if(origin.equals(i.getOrigin()) && destination.equals(i.getDestination()) && year == i.getYear() && month == i.getMonth() && day == i.getDay()) {
@@ -43,7 +43,7 @@ public class TravelCompany {
 		return travelTypes;
 	}
 
-	public TravelType findTravelByID(String ID) {
+	TravelType findTravelByID(String ID) {
 		for(TravelType tt: travelList) {
 			if(tt.getID().equalsIgnoreCase(ID))
 				return tt;
@@ -51,7 +51,7 @@ public class TravelCompany {
 		return null;
 	}
 	
-	public boolean bookByPreference(String ID, SeatClass seatClass, Position position) {
+	boolean bookByPreference(String ID, SeatClass seatClass, Position position) {
 		for(TravelType i: travelList) {
 			if(ID.equals(i.getID())) {
 				return i.bookByPreference(seatClass, position);
@@ -60,16 +60,16 @@ public class TravelCompany {
 		return false; 
 	}
 	
-	public boolean book(String fID, SeatClass seatClass, int row, char col)  {
+	boolean book(String fID, SeatClass seatClass, int row, char col)  {
 		for(TravelType i: travelList) {
 			if(fID.equals(i.getID())) {
-				return i.book(seatClass, row, (int)(Character.toUpperCase(col)-65));
+				return i.book(seatClass, row, (Character.toUpperCase(col)-65));
 			}
 		}
 		return false; 
 	}
 
-	public boolean addTravelType(String origin, String destination, int year, int month, int day, int hour, int min, String ID, TransportationType type) {
+	boolean addTravelType(String origin, String destination, int year, int month, int day, int hour, int min, String ID, TransportationType type) {
 		
 		TravelType t;
 		try {
@@ -78,12 +78,12 @@ public class TravelCompany {
 			} else if(type.equals(TransportationType.SHIP)) {
 				t = new Ship(origin, destination, year, day, month, ID);
 			} else {
-				throw new IllegalArgumentException("TravelType not created, ship or flight not specified");
+				throw new IllegalArgumentException("ERROR: has not been created.\n");
 			}
 
 			for(TravelType i : this.travelList) {
 				if(ID.equals(i.getID())) {
-					throw new SameFlightIDException("Duplicate TravelType ID");
+					throw new SameFlightIDException("ERROR: has not been created: Duplicate travel ID number.\n");
 				}
 			}
 
@@ -97,24 +97,26 @@ public class TravelCompany {
 
 	}
 	
-	public boolean addTravelTypeSection(String ID, int rows, SeatLayout seatLayout, SeatClass seatClass, double price) {
+	boolean addTravelTypeSection(String ID, int rows, SeatLayout seatLayout, SeatClass seatClass, double price) {
 		for(TravelType t : this.travelList) {
 			if(t.getID().equals(ID)) {
 				try {
 
-					//IF flight is not unique, realprice will be set to already established price
 					boolean flightUnique = true;
 					double realPrice = price; 
 					for(TravelType tt: this.travelList) {
 						if(tt.getOrigin().equals(t.getOrigin()) && tt.getDestination().equals(t.getDestination())) {
 							flightUnique = false;
 							List<Section> sections = tt.getSections();
-							realPrice = sections.get(sections.indexOf(seatClass)).getPrice();
+							for (Section secP : sections) {
+								if(secP.getSeatClass().equalsIgnoreCase(seatClass.name()))
+									realPrice = secP.getPrice();
+							}
 						}
 					}
 					
 					if(!flightUnique) {
-						System.out.println("Origin/Destination combination not unique, so the price provided was overwritten by previously established price");
+						System.out.println(String.format("Section has been created.\nWarning: s%s has trips with same origin/destination locations: price has been set to %.2f\n", this.getName(), realPrice));
 					}
 					
 					t.addSection(new Section(rows, seatLayout, seatClass, realPrice));
@@ -144,7 +146,24 @@ public class TravelCompany {
 		return result;
 	}
 
-	
+	String displayDetails() {
+		String result = "";
+		for (TravelType travelList : this.travelList) {
+			result += String.format("%-10s %-20s %-10s %-10s %-20s %-20s\n", this.getName(), travelList.getID(), travelList.getOrigin(), travelList.getDestination(), travelList.getDate(), travelList.getTime());
+		}
+		return result;
+	}
+
+	String displayDetailed() {
+		String result = "";
+		for (TravelType travelList : this.travelList) {
+			result += String.format("%-10s %-5s %-5s %-10s %-10s\n", travelList.getID(), travelList.getOrigin(), travelList.getDestination(), travelList.getDate(), travelList.getTime());
+				for(Section sectionList : travelList.getSections()) {
+					result += sectionList.getDetailed();
+				}
+		}
+		return result;
+	}
 	
 	
 }

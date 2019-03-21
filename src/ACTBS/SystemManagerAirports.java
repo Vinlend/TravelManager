@@ -32,11 +32,4 @@ public class SystemManagerAirports extends SystemManager{
             System.out.println(e.getMessage());
         }
     }
-
-    @Override
-    public void displaySystemDetails() {
-        super.displaySystemDetails();
-        System.out.println("I'm in Airports");
-    }
-
 }

@@ -415,15 +415,38 @@ public abstract class SystemManager {
 	
     public void displaySystemDetails() {
 
-    	System.out.println("---System---");
-    	System.out.println("TravelLocations:");
-    	for(TravelLocation ap : this.travelLocations)
-    		System.out.println(String.format("%8s", ap.getName()));
+    	System.out.println("------------------------------------------System-------------------------------------------");
+    	System.out.println("Travel locations:");
 
-    	System.out.println("Flights:");
-    	for(TravelCompany al : this.travelCompanies)
+		printTravelLocations();
+
+		System.out.println(String.format("%-10s %-20s %-10s %-10s %-20s %-20s", "Company", ((this instanceof SystemManagerAirports) ? "Flight number" : "Cruise number"), "From", "To", "Date", "Departure time"));
+    	for(TravelCompany travelList : this.travelCompanies)
     	{
-    		System.out.println(al);
+    		System.out.print(travelList.displayDetails());
     	}
+		System.out.println("-------------------------------------------------------------------------------------------");
+		System.out.println();
     }
+
+    public void displayDetailedSystem() {
+		System.out.println("-------------------------------------System Detailed---------------------------------------");
+		System.out.println("Travel locations:");
+
+		printTravelLocations();
+
+		for(TravelCompany travelList : this.travelCompanies)
+		{
+			System.out.println(travelList.getName());
+			System.out.print(travelList.displayDetailed());
+		}
+		System.out.println("-------------------------------------------------------------------------------------------");
+		System.out.println();
+	}
+
+	private void printTravelLocations() {
+		for(TravelLocation ap : this.travelLocations)
+			System.out.print(String.format("| %s | ", ap.getName()));
+		System.out.println("\n");
+	}
 }

@@ -221,6 +221,18 @@ public class Section {
                 System.out.print(spots[row][col].getPosition() + " ");
             System.out.println("\n");
         }
+    }
 
+    String getDetailed() {
+
+        String result = String.format("%-10s\n", this.seatClass.name() +":");
+        for (int row = 0; row < spots.length; row++) {
+            for (int col = 0; col < spots[0].length; col++) {
+
+                result += String.format("%5s", (spots[row][col].isBooked()) ? "--" : spots[row][col].getID());
+            }
+            result += "\n";
+        }
+        return result + "\n";
     }
 }

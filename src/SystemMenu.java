@@ -26,7 +26,6 @@ public class SystemMenu {
                     "4. Print Cruise System current state.\n" +
                     "0. Exit.");
 
-
             System.out.println("Choose menu item:");
             int menuItemChosen = readMenuItems(sc);
 
@@ -38,10 +37,10 @@ public class SystemMenu {
                     cruiseSysMenu(sc, connectionCruises);
                     break;
                 case 3:
-                    connectionAirports.displaySystemDetails();
+                    connectionAirports.displayDetailed();
                     break;
                 case 4:
-                    connectionCruises.displaySystemDetails();
+                    connectionCruises.displayDetailed();
                     break;
                 case 0:
                     flag = false;
@@ -58,7 +57,7 @@ public class SystemMenu {
             try {
                 menuItem = sc.nextInt();
                 if (menuItem < 0)
-                    throw new IllegalArgumentException("Incorrect menu item: has to be positive number");
+                    throw new IllegalArgumentException("Incorrect menu item: has to be positive number.");
                 flag = false;
             }
             catch(IllegalArgumentException e) {
@@ -66,7 +65,7 @@ public class SystemMenu {
                 sc.nextLine();
             }
             catch(InputMismatchException e) {
-                System.out.println("Incorrect menu item: has to be a number");
+                System.out.println("Incorrect menu item: has to be a number.");
                 sc.nextLine();
             }
         }
@@ -79,16 +78,20 @@ public class SystemMenu {
             System.out.println(
                     "Airport System Menu:\n" +
                             "1. Load system from a file.\n" +
-                            "2. Change price of the seat class of the flight.\n" +
-                            "3. Find available seats.\n" +
-                            "4. Change price of the seat class for specified origin and destination for Airline.\n" +
-                            "5. Book a specified seat on a flight.\n" +
-                            "6. Book a seat by a preference.\n" +
-                            "7. Display airport system.\n" +
-                            "8. Save airport system in a file.\n" +
-                            "0. Exit to the previous menu");
+                            "2. Create a travel location.\n" +
+                            "3. Create an Airline.\n" +
+                            "4. Create a flight.\n" +
+                            "5. Create a flight section.\n" +
+                            "6. Change price of the seat class of the flight.\n" +
+                            "7. Find available seats.\n" +
+                            "8. Change price of the seat class for specified origin and destination for Airline.\n" +
+                            "9. Book a specified seat on a flight.\n" +
+                            "10. Book a seat by a preference.\n" +
+                            "11. Display airport system.\n" +
+                            "12. Save airport system in a file.\n" +
+                            "0. Exit to the previous menu.");
 
-            flag = exectuteMenu(sc, connectionAirports);
+            flag = executeMenu(sc, connectionAirports);
         }
     }
 
@@ -98,20 +101,24 @@ public class SystemMenu {
             System.out.println(
                     "Cruise System Menu:\n" +
                             "1. Load system from a file.\n" +
-                            "2. Change price of the cabin class of the trip.\n" +
-                            "3. Find available cabins.\n" +
-                            "4. Change price of the cabin class for specified origin and destination for Cruise.\n" +
-                            "5. Book a specified cabin on a trip.\n" +
-                            "6. Book a cabin by a preference.\n" +
-                            "7. Display Cruise system.\n" +
-                            "8. Save cruise system in a file.\n" +
-                            "0. Exit ot the previous menu");
+                            "2. Create a travel location.\n" +
+                            "3. Create a Cruise.\n" +
+                            "4. Create a ship.\n" +
+                            "5. Create a ship section.\n" +
+                            "6. Change price of the cabin class of the trip.\n" +
+                            "7. Find available cabins.\n" +
+                            "8. Change price of the cabin class for specified origin and destination for Cruise.\n" +
+                            "9. Book a specified cabin on a trip.\n" +
+                            "10. Book a cabin by a preference.\n" +
+                            "11. Display Cruise system.\n" +
+                            "12. Save cruise system in a file.\n" +
+                            "0. Exit ot the previous menu.");
 
-            flag = exectuteMenu(sc, connectionCruises);
+            flag = executeMenu(sc, connectionCruises);
         }
     }
 
-    private static boolean exectuteMenu(Scanner sc, Client connection) {
+    private static boolean executeMenu(Scanner sc, Client connection) {
 
             System.out.println("Choose menu item:");
             int menuItemChosen = readMenuItems(sc);
@@ -121,24 +128,36 @@ public class SystemMenu {
                     connection.loadFromFile(sc);
                     break;
                 case 2:
-                    connection.changePriceSpecificTrip(sc);
+                    connection.createTravelLocation(sc);
                     break;
                 case 3:
-                    connection.findAvailableTrips(sc);
+                    connection.createTravelCompany(sc);
                     break;
                 case 4:
-                     connection.changePriceOrigDestTrip(sc);
+                    connection.createTravelType(sc);
                     break;
                 case 5:
-                     connection.bookSpotSpecific(sc);
+                    connection.createTravelSection(sc);
                     break;
                 case 6:
-                    connection.bookSpotPreference(sc);
+                    connection.changePriceSpecificTrip(sc);
                     break;
                 case 7:
-                    connection.displaySystemDetails();
+                    connection.findAvailableTrips(sc);
                     break;
                 case 8:
+                     connection.changePriceOrigDestTrip(sc);
+                    break;
+                case 9:
+                     connection.bookSpotSpecific(sc);
+                    break;
+                case 10:
+                    connection.bookSpotPreference(sc);
+                    break;
+                case 11:
+                    connection.displaySystemDetails();
+                    break;
+                case 12:
                     connection.saveToFile(sc);
                     break;
                 case 0:
