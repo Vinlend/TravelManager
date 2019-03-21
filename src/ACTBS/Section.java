@@ -197,7 +197,7 @@ public class Section {
             for (int col = 0; col < spots[0].length; col++) {
             	section += String.format("%2s ", (spots[row][col].isBooked()) ? "--" : spots[row][col].getID());
 
-                //section += ((col == 0) ? "\t" : "") + seats[row][col].getID() + ((col == seats[0].length-1) ? "" : " ");
+               
 
             }
             section += "\n";

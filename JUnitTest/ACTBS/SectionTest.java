@@ -24,30 +24,7 @@ class SectionTest {
         assertEquals(false, testSectionMedium.bookSpot(1 ,3));
     }
 
-    @Test
-    void testToString() {
-        String sectionMedium =
-                "\tBUSINESS class:\n" +
-                        "\t1A 1B 1C 1D\n" +
-                        "\t2A 2B 2C 2D\n";
-
-        assertEquals(sectionMedium, testSectionMedium.toString());
-
-        String sectionWide =
-                "\tBUSINESS class:\n" +
-                        "\t1A 1B 1C 1D 1E 1F 1G 1H 1I 1J\n" +
-                        "\t2A 2B 2C 2D 2E 2F 2G 2H 2I 2J\n";
-
-        assertEquals(sectionWide, testSectionWide.toString());
-
-
-        String sectionSmall =
-                "\tBUSINESS class:\n" +
-                        "\t1A 1B 1C\n" +
-                        "\t2A 2B 2C\n";
-
-        assertEquals(sectionSmall, testSectionSmall.toString());
-    }
+  
 
     @Test
     void bookByPreference() {

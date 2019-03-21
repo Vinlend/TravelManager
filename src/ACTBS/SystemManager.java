@@ -19,16 +19,19 @@ public abstract class SystemManager {
 	protected ArrayList<TravelCompany> travelCompanies = new ArrayList<>();
 	
 	protected boolean travelLocationCheck(String orig, String dest) {
-		 boolean travelLocationCheck = false;
+		 boolean travelLocationOrig = false;
+		 boolean travelLocationDest = false;
 	     for(TravelLocation travelLocation : travelLocations) {
-	     	if(travelLocation.getName().toUpperCase().equals(orig)) {
-	     		if(travelLocation.getName().toUpperCase().equals(dest)) {
-	     			travelLocationCheck = true; 
-	     		}
+	     	if(travelLocation.getName().toUpperCase().equals(orig.toUpperCase())) {
+	     		travelLocationOrig = true;
 	     	}
+	     	
+	     	if(travelLocation.getName().toUpperCase().equals(dest.toUpperCase())) {
+     			travelLocationDest = true; 
+     		}
 	     }
 	     
-	     return travelLocationCheck;
+	     return travelLocationOrig && travelLocationDest;
 	 }
 	
 	
@@ -111,6 +114,7 @@ public abstract class SystemManager {
     		if( (month > 12 || day > 31) || (month < 0 || day < 0)) {
     			throw new IllegalArgumentException("TravelType " + ID + " not created: Invalid Date");
     		}
+    		
 
 
     }
@@ -273,24 +277,24 @@ public abstract class SystemManager {
 
 	        
 	        
-	        //SECOND is List of Airlines w/ their flights
-	        //THIRD is a list of Flights, the first of each will include the airline name
+	      
+	      
 	        String[] third;
 	        String airlineName = "";
-	        //FOR EACH AIRLINE
+	       
 	        for(String g: second) {
 	        	boolean isFirstFlight = true; 
-	        	//String[] third = g.split("\\[|\\,|\\s+|\\||\\]|\\:"); 
+	        	 
 	        	third = g.split("\\]\\,"); 
-	        	//FOR EACH FLIGHT IN AIRLINE
+	        	
 	        	int flightCount = 0;
 	        	for(String h: third) {
 	        		flightCount = 0;
 	        		h = h.trim(); 
 	        		
-	        		//FOURTH will be an array for each Flight listed in Airline
+	        		
 	        		String[] fourth = h.trim().split("\\]\\,\\s|\\[|\\,\\s|\\s+|\\||\\]|\\]\\,");
-	        		//If first flight for airline, it will contain the airline name
+	        		
 	        		
 	        		if(isFirstFlight) {
 	        			isFirstFlight = false;
@@ -307,7 +311,23 @@ public abstract class SystemManager {
 		        		createTravelCompany(airlineName); 
 		        		
 	        		}
-	        		//ADD TRAVEL TYPE TO COMPANY LIST
+	        		
+	        		boolean originFlag = false;
+	        		boolean destinationFlag = false; 
+	        		for(TravelLocation travelLocation: travelLocations) {
+	        			if(travelLocation.getName().equals(fourth[flightCount+6])) {
+	        				originFlag = true;
+	        			}
+	        			
+	        			if(travelLocation.getName().equals(fourth[flightCount+7])) {
+	        				destinationFlag = true;
+	        			}
+	        		}
+	        		
+	        		if(originFlag == false || originFlag == false) {
+	        			throw new IllegalArgumentException(); 
+	        		}
+	        		
 	        		travelCompanies.get(findTravelCompanyIndex(airlineName)).addTravelType(fourth[flightCount+6], fourth[flightCount+7], Integer.parseInt(fourth[flightCount+1]), Integer.parseInt(fourth[flightCount+2]), Integer.parseInt(fourth[flightCount+3]), Integer.parseInt(fourth[flightCount+4]), Integer.parseInt(fourth[flightCount+5]), fourth[flightCount], type);
 	       			
 	        		
@@ -409,7 +429,7 @@ public abstract class SystemManager {
 		writer.write(content);
 		
 
-		return false; 
+		return true; 
 	}
 	
     public void displaySystemDetails() {
