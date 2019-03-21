@@ -15,6 +15,10 @@ public class Client {
         manager.displaySystemDetails();
     }
 
+    public void displayDetailed() {
+        manager.displayDetailedSystem();
+    }
+
     public void loadFromFile(Scanner sc) {
         System.out.println("Load from file.");
         String filePath;
@@ -28,9 +32,11 @@ public class Client {
                 else {
                     if(!new File(filePath).exists())
                         System.out.println("File does not exist");
+                    else {
+                        manager.loadInputFile(filePath);
+                        stop = true;
+                    }
                 }
-                manager.loadInputFile(filePath);
-                stop = true;
             } catch (InputMismatchException e) {
                 System.out.println("Path has to be a string");
             } catch (RuntimeException e) {

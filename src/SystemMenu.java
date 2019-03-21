@@ -37,10 +37,10 @@ public class SystemMenu {
                     cruiseSysMenu(sc, connectionCruises);
                     break;
                 case 3:
-                    connectionAirports.displaySystemDetails();
+                    connectionAirports.displayDetailed();
                     break;
                 case 4:
-                    connectionCruises.displaySystemDetails();
+                    connectionCruises.displayDetailed();
                     break;
                 case 0:
                     flag = false;
@@ -57,7 +57,7 @@ public class SystemMenu {
             try {
                 menuItem = sc.nextInt();
                 if (menuItem < 0)
-                    throw new IllegalArgumentException("Incorrect menu item: has to be positive number");
+                    throw new IllegalArgumentException("Incorrect menu item: has to be positive number.");
                 flag = false;
             }
             catch(IllegalArgumentException e) {
@@ -65,7 +65,7 @@ public class SystemMenu {
                 sc.nextLine();
             }
             catch(InputMismatchException e) {
-                System.out.println("Incorrect menu item: has to be a number");
+                System.out.println("Incorrect menu item: has to be a number.");
                 sc.nextLine();
             }
         }
@@ -89,7 +89,7 @@ public class SystemMenu {
                             "10. Book a seat by a preference.\n" +
                             "11. Display airport system.\n" +
                             "12. Save airport system in a file.\n" +
-                            "0. Exit to the previous menu");
+                            "0. Exit to the previous menu.");
 
             flag = executeMenu(sc, connectionAirports);
         }
@@ -112,7 +112,7 @@ public class SystemMenu {
                             "10. Book a cabin by a preference.\n" +
                             "11. Display Cruise system.\n" +
                             "12. Save cruise system in a file.\n" +
-                            "0. Exit ot the previous menu");
+                            "0. Exit ot the previous menu.");
 
             flag = executeMenu(sc, connectionCruises);
         }

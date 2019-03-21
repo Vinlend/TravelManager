@@ -14,16 +14,16 @@ public class TravelCompany {
 		this.name = name;
 	}
 	
-	public String getName() {
+	String getName() {
 		return this.name;
 	}
 	
-	public List<TravelType> getTravelTypes() {
+	List<TravelType> getTravelTypes() {
 		return this.travelList; 
 		
 	}
 	
-	public ArrayList<TravelType> findTravelTypesByOriginDestination(String origin, String destination) {
+	ArrayList<TravelType> findTravelTypesByOriginDestination(String origin, String destination) {
 		ArrayList<TravelType> travelTypes = new ArrayList<TravelType>();
 		for(TravelType i: this.travelList) {
 			if(origin.equals(i.getOrigin()) && destination.equals(i.getDestination())) {
@@ -33,7 +33,7 @@ public class TravelCompany {
 		return travelTypes;
 	}
 	
-	public ArrayList<TravelType> findTravelTypes(String origin, String destination, int year, int month, int day) {
+	ArrayList<TravelType> findTravelTypes(String origin, String destination, int year, int month, int day) {
 		ArrayList<TravelType> travelTypes = new ArrayList<TravelType>();
 		for(TravelType i: this.travelList) {
 			if(origin.equals(i.getOrigin()) && destination.equals(i.getDestination()) && year == i.getYear() && month == i.getMonth() && day == i.getDay()) {
@@ -43,7 +43,7 @@ public class TravelCompany {
 		return travelTypes;
 	}
 
-	public TravelType findTravelByID(String ID) {
+	TravelType findTravelByID(String ID) {
 		for(TravelType tt: travelList) {
 			if(tt.getID().equalsIgnoreCase(ID))
 				return tt;
@@ -51,7 +51,7 @@ public class TravelCompany {
 		return null;
 	}
 	
-	public boolean bookByPreference(String ID, SeatClass seatClass, Position position) {
+	boolean bookByPreference(String ID, SeatClass seatClass, Position position) {
 		for(TravelType i: travelList) {
 			if(ID.equals(i.getID())) {
 				return i.bookByPreference(seatClass, position);
@@ -60,7 +60,7 @@ public class TravelCompany {
 		return false; 
 	}
 	
-	public boolean book(String fID, SeatClass seatClass, int row, char col)  {
+	boolean book(String fID, SeatClass seatClass, int row, char col)  {
 		for(TravelType i: travelList) {
 			if(fID.equals(i.getID())) {
 				return i.book(seatClass, row, (Character.toUpperCase(col)-65));
@@ -69,7 +69,7 @@ public class TravelCompany {
 		return false; 
 	}
 
-	public boolean addTravelType(String origin, String destination, int year, int month, int day, int hour, int min, String ID, TransportationType type) {
+	boolean addTravelType(String origin, String destination, int year, int month, int day, int hour, int min, String ID, TransportationType type) {
 		
 		TravelType t;
 		try {
@@ -97,7 +97,7 @@ public class TravelCompany {
 
 	}
 	
-	public boolean addTravelTypeSection(String ID, int rows, SeatLayout seatLayout, SeatClass seatClass, double price) {
+	boolean addTravelTypeSection(String ID, int rows, SeatLayout seatLayout, SeatClass seatClass, double price) {
 		for(TravelType t : this.travelList) {
 			if(t.getID().equals(ID)) {
 				try {
@@ -144,7 +144,24 @@ public class TravelCompany {
 		return result;
 	}
 
-	
+	String displayDetails() {
+		String result = "";
+		for (TravelType travelList : this.travelList) {
+			result += String.format("%-10s %-20s %-10s %-10s %-20s %-20s\n", this.getName(), travelList.getID(), travelList.getOrigin(), travelList.getDestination(), travelList.getDate(), travelList.getTime());
+		}
+		return result;
+	}
+
+	String displayDetailed() {
+		String result = "";
+		for (TravelType travelList : this.travelList) {
+			result += String.format("%-10s %-5s %-5s %-10s %-10s\n", travelList.getID(), travelList.getOrigin(), travelList.getDestination(), travelList.getDate(), travelList.getTime());
+				for(Section sectionList : travelList.getSections()) {
+					result += sectionList.getDetailed();
+				}
+		}
+		return result;
+	}
 	
 	
 }
