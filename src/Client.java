@@ -79,7 +79,6 @@ public class Client {
             System.out.println("Find available seats");
         String origin;
         String destination;
-        SeatClass seatClass;
         int year;
         int month;
         int day;
@@ -89,14 +88,11 @@ public class Client {
             try {
                 origin = getString(sc, "Enter origin(ex: GEG):");
                 destination = getString(sc, "Enter destination(ex: GEG):");
-
-                seatClass = getSeatClass(sc);
-
                 year = getInt(sc, "Enter year(ex: 2019):");
                 month = getInt(sc, "Enter month(ex: 10:");
                 day = getInt(sc, "Enter day(ex: 25)");
 
-                manager.findAvailableTravels(origin, destination, seatClass, year, month, day);
+                manager.findAvailableTravels(origin, destination, year, month, day);
                 stop = true;
             } catch (InputMismatchException e) {
                 System.out.println(e.getMessage());

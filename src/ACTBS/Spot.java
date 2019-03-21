@@ -18,11 +18,11 @@ public class Spot {
         this.booked = false;
     }
 
-    public String getID() {
+    String getID() {
         return this.ID;
     }
 
-    public boolean isBooked() {
+    boolean isBooked() {
         return this.booked;
     }
 
@@ -30,7 +30,7 @@ public class Spot {
         return position;
     }
 
-    public boolean book() {
+    boolean book() {
         if (!this.booked) {
             this.booked = true;
             return true;

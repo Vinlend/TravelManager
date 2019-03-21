@@ -2,7 +2,6 @@ package ACTBS;
 
 
 
-import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -16,8 +15,8 @@ import ACTBS.SystemExceptions.*;
 
 public abstract class SystemManager {
 
-	public ArrayList<TravelLocation> travelLocations = new ArrayList<>();
-	public ArrayList<TravelCompany> travelCompanies = new ArrayList<>();
+	protected ArrayList<TravelLocation> travelLocations = new ArrayList<>();
+	protected ArrayList<TravelCompany> travelCompanies = new ArrayList<>();
 	
 	protected boolean travelLocationCheck(String orig, String dest) {
 		 boolean travelLocationCheck = false;
@@ -145,7 +144,7 @@ public abstract class SystemManager {
         }
     }
     
-    public void findAvailableTravels(String orig, String dest, SeatClass seatClass, int year, int month, int day) {
+    public void findAvailableTravels(String orig, String dest, int year, int month, int day) {
     	int count = 0; 
 		if(year < 2019)
 			System.out.println("ERROR: incorrect year\n");
