@@ -84,7 +84,7 @@ public class SystemMenu {
                             "5. Create a flight section.\n" +
                             "6. Change price of the seat class of the flight.\n" +
                             "7. Find available seats.\n" +
-                            "8. Change price of the seat class for specified origin and destination for Airline.\n" +
+                            "8. Change pric1e of the seat class for specified origin and destination for Airline.\n" +
                             "9. Book a specified seat on a flight.\n" +
                             "10. Book a seat by a preference.\n" +
                             "11. Display airport system.\n" +
